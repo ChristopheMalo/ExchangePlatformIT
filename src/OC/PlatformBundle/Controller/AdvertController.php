@@ -95,6 +95,17 @@ class AdvertController extends Controller
      */
     public function addAction(Request $request)
     {
+        // Retrieve the antispam service
+        $antispam = $this->container->get('oc_platform.antispam');
+        
+        // test antispam
+        $text = '...'; // Less than 50 characters
+        if ($antispam->isSpam($text))
+        {
+            throw new \Exception('Your message is detected as spam !');
+        }
+           
+        
         // If POST method then user send form
         if ($request->isMethod('POST'))
         {
