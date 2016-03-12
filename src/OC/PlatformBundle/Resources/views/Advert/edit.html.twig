@@ -7,15 +7,28 @@
  * @copyright       OpenClassrooms - Alexandre Bacco 
  */
 #}
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>A form to edit a job offer</title>
-    </head>
-    <body>
-        <h1>Form to edit job offer</h1>
-        <p>
-            the form
-        </p>
-    </body>
-</html>
+{% extends "OCPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+    Edit job offer - {{ parent() }}
+{% endblock %}
+
+{% block ocplatform_body %}
+
+    <h2>Edit job offer</h2>
+
+    {{ include("OCPlatformBundle:Advert:form.html.twig") }}
+
+    <p>
+        You edit an existing job offer, thank you not to change
+        the general spirit of the announcement already published.
+    </p>
+
+    <p>
+        <a href="{{ path('oc_platform_view', {'id': advert.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Back to job offer
+        </a>
+    </p>
+
+{% endblock %}

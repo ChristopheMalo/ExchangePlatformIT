@@ -7,13 +7,34 @@
  * @copyright       OpenClassrooms - Alexandre Bacco 
  */
 #}
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Job offer number {{ id }}</title>
-    </head>
-    <body>
-        <h1>Job offer number {{ id }}</h1>
-        <p>Job offer content</p>
-    </body>
-</html>
+{% extends "OCPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+    Job offers details - {{ parent() }}
+{% endblock %}
+
+{% block ocplatform_body %}
+
+    <h2>{{ advert.title }}</h2>
+    <i>By {{ advert.author }}, the {{ advert.date|date('d/m/Y') }}</i>
+
+    <div class="well">
+        {{ advert.content }}
+    </div>
+
+    <p>
+        <a href="{{ path('oc_platform_home') }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Back to to the list
+        </a>
+        <a href="{{ path('oc_platform_edit', {'id': advert.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-edit"></i>
+            Edit job offer
+        </a>
+        <a href="{{ path('oc_platform_delete', {'id': advert.id}) }}" class="btn btn-danger">
+            <i class="glyphicon glyphicon-trash"></i>
+            Delete job offer
+        </a>
+    </p>
+
+{% endblock %}

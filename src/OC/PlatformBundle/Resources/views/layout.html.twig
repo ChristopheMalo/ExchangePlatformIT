@@ -1,0 +1,24 @@
+{#
+/**
+ * Base template bundle
+ * Each template will inherit this base
+ * 
+ * @author          Christophe Malo
+ * @version         1.0.0
+ * @copyright       OpenClassrooms - Alexandre Bacco
+ */
+#}
+{% extends "::layout.html.twig" %}
+
+{% block title %}Job offers - {{ parent() }}{% endblock %}
+
+{% block body %}
+    
+    {# A common subtitle #}
+    <h1>Job offers</h1>
+    <hr> 
+    
+    {# bloc for view #}
+    {% block ocplatform_body %}{% endblock %}
+    
+{% endblock %}

@@ -1,0 +1,18 @@
+{#
+/**
+ * Form template
+ * 
+ * @author          Christophe Malo
+ * @version         1.0.0
+ * @copyright       OpenClassrooms - Alexandre Bacco
+ */
+#}
+<ul class="nav nav-pills nav-stacked">
+  {% for advert in listAdverts %}
+    <li>
+      <a href="{{ path('oc_platform_view', {'id': advert.id}) }}">
+        {{ advert.title }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,70 @@
+{#
+/**
+ * Base template application
+ * Each template will inherit this base
+ * 
+ * @author          Christophe Malo
+ * @version         1.0.0
+ * @copyright       OpenClassrooms - Alexandre Bacco
+ */
+#}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% block title %}Job offers Platform{% endblock %}</title>
+
+        {% block stylesheets %}
+            {# Bootstrap CDN #}
+            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        {% endblock %}
+    </head>
+
+    <body>
+        <div class="container">
+            <div id="header" class="jumbotron">
+                <h1>My job offers platform</h1>
+                <p>
+                    This project is powered by Symfony2
+                    and built with the MOOC OpenClassrooms and SensioLabs 
+                </p>
+                <p>
+                    <a class="btn btn-primary btn-lg" href="http://fr.openclassrooms.com/informatique/cours/developpez-votre-site-web-avec-le-framework-symfony2">
+                        Participate in the MOOC »
+                    </a>
+                </p>
+            </div>
+
+            <div class="row">
+                <div id="menu" class="col-md-3">
+                    <h3>Job offers</h3>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="{{ path('oc_platform_home') }}">Home</a></li>
+                        <li><a href="{{ path('oc_platform_add') }}">Add a job offer</a></li>
+                    </ul>
+
+                    <h4>Lastest job offers</h4>
+                    {{ render(controller("OCPlatformBundle:Advert:menu", {'limit': 3})) }}
+                </div>
+                <div id="content" class="col-md-9">
+                    {% block body %}
+                    {% endblock %}
+                </div>
+            </div>
+
+            <hr>
+
+            <footer>
+                <p>Copyright © {{ 'now'|date('Y') }} Openclassrooms, Alexandre Bacco - Adapted and directed: Christophe Malo</p>
+            </footer>
+        </div>
+
+        {% block javascripts %}
+            {# For bootstrap twitter #}
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        {% endblock %}
+    </body>
+</html>

@@ -7,15 +7,20 @@
  * @copyright       OpenClassrooms - Alexandre Bacco 
  */
 #}
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>A form to add a job offer</title>
-    </head>
-    <body>
-        <h1>Form to add a job offer</h1>
-        <p>
-            the form
-        </p>
-    </body>
-</html>
+{% extends "OCPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+    Add job offer - {{ parent() }}
+{% endblock %}
+
+{% block ocplatform_body %}
+
+    <h2>Add job offer</h2>
+
+    {{ include("OCPlatformBundle:Advert:form.html.twig") }}
+
+    <p>
+        Be careful: this post will be added directly on the home page after form validation.
+    </p>
+
+{% endblock %}
