@@ -32,9 +32,34 @@ class AdvertController extends Controller
         }
         
         // Code to retreive a list of all job offers and send to view
-        // 
         
-        return $this->render('OCPlatformBundle:Advert:index.html.twig');
+        // Static Job offers array to testing the controller
+        // Later the jobs offers'll retrieve from DB
+            $listAdverts = array(
+            array(
+                'title' => 'Recherche développpeur Symfony2',
+                'id' => 1,
+                'author' => 'Alexandre',
+                'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
+                'date' => new \Datetime()),
+            array(
+                'title' => 'Mission de webmaster',
+                'id' => 2,
+                'author' => 'Hugo',
+                'content' => 'Nous recherchons un webmaster capable de maintenir notre site internet. Blabla…',
+                'date' => new \Datetime()),
+            array(
+                'title' => 'Offre de stage webdesigner',
+                'id' => 3,
+                'author' => 'Mathieu',
+                'content' => 'Nous proposons un poste pour webdesigner. Blabla…',
+                'date' => new \Datetime())
+        );
+
+
+        return $this->render('OCPlatformBundle:Advert:index.html.twig', array(
+            'listAdverts' => $listAdverts
+        ));
     }
     
     /**
@@ -46,9 +71,20 @@ class AdvertController extends Controller
     public function viewAction($id)
     {
         // Retrieve the job offer matching the param id
+        
+        // Static job offer to testing - Retrieve later from DB
+        $advert = array(
+            'title' => 'Recherche développpeur Symfony2',
+            'id' => $id,
+            'author' => 'Alexandre',
+            'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
+            'date' => new \Datetime()
+        );
 
         // Return the view of a job offer
-        return $this->render('OCPlatformBundle:Advert:view.html.twig', array('id' => $id));
+        return $this->render('OCPlatformBundle:Advert:view.html.twig', array(
+            'advert' => $advert
+        ));
     }
     
     /**
@@ -92,7 +128,18 @@ class AdvertController extends Controller
             return $this->redirectToRoute('oc_platform_view', array('id' => 5));
         }
         
-        return $this->render('OCPlatformBundle:Advert:edit.html.twig');
+        // Static job offer to testing - Retrieve later from DB
+        $advert = array(
+            'title' => 'Recherche développpeur Symfony2',
+            'id' => $id,
+            'author' => 'Alexandre',
+            'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
+            'date' => new \Datetime()
+        );
+
+        return $this->render('OCPlatformBundle:Advert:edit.html.twig', array(
+            'advert' => $advert
+        ));
     }
     
     /**
@@ -108,5 +155,26 @@ class AdvertController extends Controller
         // Manage deleting the job offer
         
         return $this->render('OCPlatformBundle:Advert:delete.html.twig');
+    }
+    
+    /**
+     * Returns a list with the latest job offers in a bloc menu
+     * 
+     * @param int $limit The number limit of job offers
+     * @return View menu
+     */
+    public function menuAction($limit)
+    {
+        // Static list for testing - later this list'll come from DB
+        $listAdverts = array(
+            array('id' => 2, 'title' => 'Search Symfony2 developer'),
+            array('id' => 5, 'title' => 'Webmaster mission'),
+            array('id' => 9, 'title' => 'Webdesigner internship offer')
+        );
+        
+        return $this->render('OCPlatformBundle:Advert:menu.html.twig', array(
+            // The controller sends the variable to the view
+            'listAdverts' => $listAdverts
+        ));
     }
 }
