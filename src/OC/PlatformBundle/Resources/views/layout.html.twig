@@ -8,15 +8,14 @@
  * @copyright       OpenClassrooms - Alexandre Bacco
  */
 #}
-{% extends "::layout.html.twig" %}
+{% extends "OCCoreBundle:layout.html.twig" %}
 
-{% block title %}Job offers - {{ parent() }}{% endblock %}
+{% block title %} {{ parent() }}{% endblock %}
 
-{% block body %}
+{% block occore_body %}
     
-    {# A common subtitle #}
-    <h1>Job offers</h1>
-    <hr> 
+    {# A common subtitle - I decide to remove this subtitle, no need in this app #}
+    {#<h1>Job offers</h1>#}
     
     {# bloc for view #}
     {% block ocplatform_body %}{% endblock %}
