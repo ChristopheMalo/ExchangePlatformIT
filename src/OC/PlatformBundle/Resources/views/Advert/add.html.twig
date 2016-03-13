@@ -1,0 +1,26 @@
+{#
+/**
+ * The add job offer view
+ *
+ * @author          Christophe Malo
+ * @version         1.0.0
+ * @copyright       OpenClassrooms - Alexandre Bacco 
+ */
+#}
+{% extends "OCPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+    Add job offer - {{ parent() }}
+{% endblock %}
+
+{% block ocplatform_body %}
+
+    <h2>Add job offer</h2>
+
+    {{ include("OCPlatformBundle:Advert:form.html.twig") }}
+
+    <p>
+        Be careful: this post will be added directly on the home page after form validation.
+    </p>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{#
+/**
+ * The home page of the site
+ *
+ * @author          Christophe Malo
+ * @version         1.0.0
+ * @copyright       OpenClassrooms - Alexandre Bacco 
+ */
+#}
+{% extends "OCCoreBundle::layout.html.twig" %}
+
+{% block title %}
+    Home Page - {{ parent() }}
+{% endblock %}
+
+{% block occore_body %}
+    
+    <h1>Welcome to this home Job board</h1>
+    
+    {# No duplication code - Include the list of job offers #}
+    {{ render(controller("OCPlatformBundle:Advert:index", {'page': 1})) }}
+
+{% endblock %}

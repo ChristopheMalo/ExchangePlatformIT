@@ -1,0 +1,23 @@
+{#
+/**
+ * Base template bundle
+ * Each template will inherit this base
+ * 
+ * @author          Christophe Malo
+ * @version         1.0.0
+ * @copyright       OpenClassrooms - Alexandre Bacco
+ */
+#}
+{% extends "OCCoreBundle:layout.html.twig" %}
+
+{% block title %} {{ parent() }}{% endblock %}
+
+{% block occore_body %}
+    
+    {# A common subtitle - I decide to remove this subtitle, no need in this app #}
+    {#<h1>Job offers</h1>#}
+    
+    {# bloc for view #}
+    {% block ocplatform_body %}{% endblock %}
+    
+{% endblock %}

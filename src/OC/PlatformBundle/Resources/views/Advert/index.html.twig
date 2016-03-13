@@ -1,0 +1,37 @@
+{#
+/**
+ * The index view - Frontend - to retrieve list og job offers
+ * With CoreBunble; no need to extends the layout
+ * This view is included in the home view of CoreBundle
+ *
+ * @author          Christophe Malo
+ * @version         1.0.0
+ * @copyright       OpenClassrooms - Alexandre Bacco 
+ */
+#}
+{#{% extends "OCPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+    List of job offers - {{ parent() }}
+{% endblock %}
+
+{% block ocplatform_body %}#}
+
+    <h2>All the job offers</h2>
+
+    <ul>
+        {% for advert in listAdverts %}
+            <li>
+                <a href="{{ path('oc_platform_view', {'id': advert.id}) }}">
+                    {{ advert.title }}
+                </a>
+                by {{ advert.author }},
+                the {{ advert.date|date('d/m/Y') }}
+            </li>
+        {% else %}
+            <li>Not yet job offers</li>
+            {% endfor %}
+    </ul>
+{#
+{% endblock %}
+#}
