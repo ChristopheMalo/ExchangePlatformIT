@@ -2,6 +2,8 @@
 
 namespace OC\PlatformBundle\Controller;
 
+use OC\PlatformBundle\Entity\Advert;
+use OC\PlatformBundle\Entity\Image;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -88,16 +90,29 @@ class AdvertController extends Controller
      */
     public function viewAction($id)
     {
-        // HERE: code to retrieve the job offer matching the param id
+        // Retrieve the repository
+        $repository = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('OCPlatformBundle:Advert');
+        
+        // Retrieve the entity matching the id $id
+        $advert = $repository->find($id);
+        
+        // $advert is an instance of OC\PlatformBundle\Entity\Advert
+        // if id $id does not exist then:
+        if (null === $advert)
+        {
+            throw new NotFoundHttpException('The job offer id ' . $id . ' does not exist.');
+        }
         
         // Static job offer to testing - Retrieve later from DB
-        $advert = array(
-            'title' => 'Recherche développpeur Symfony2',
-            'id' => $id,
-            'author' => 'Alexandre',
-            'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-            'date' => new \Datetime()
-        );
+//        $advert = array(
+//            'title' => 'Recherche développpeur Symfony2',
+//            'id' => $id,
+//            'author' => 'Alexandre',
+//            'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
+//            'date' => new \Datetime()
+//        );
 
         // Return the view of a job offer
         return $this->render('OCPlatformBundle:Advert:view.html.twig', array(
@@ -123,6 +138,33 @@ class AdvertController extends Controller
 //        {
 //            throw new \Exception('Your message is detected as spam !');
 //        }
+        
+        // Create the entity Advert
+        $advert = new Advert();
+        $advert->setTitle('Recherche developpeur Symfony 2');
+        $advert->setAuthor('Christophe');
+        $advert->setContent('Nous recherchons une développeur symfony2 sur Lyon');
+        // Date and publication is define automatically
+        
+        // Create the entity Image
+        $image = new Image();
+        $image->setUrl('http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg');
+        $image->setAlt('Job de rêve');
+        
+        // Link image to job offer
+        $advert->setImage($image);
+        
+        // Retrieve the entity manager
+        $em = $this->getDoctrine()->getManager();
+        
+        // First stage - Persists the entity - Doctrine manage the entity
+        $em->persist($advert);
+        
+        // No need to manually persist Entity $image because used cascade={'persist'}
+        // on Advert Entity fot private $image
+        
+        // Second stage - Flush the persist - Doctine save the entity (query)
+        $em->flush();
            
         
         // If POST method then user send form
@@ -132,8 +174,8 @@ class AdvertController extends Controller
             
             $request->getSession()->getFlashBag()->add('notice', 'The offer job is saved.');
             
-            // Redirect to see the job offer - id is change by $id later - 5 is for testing
-            return $this->redirectToRoute('oc_platform_view', array('id' => 5));
+            // Redirect to see the job offer
+            return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
         }
         
         // If not POST, display the form
