@@ -45,6 +45,18 @@
        {% else %}
            <p>Not yet application</p>
     {% endfor %}
+    
+    {% if listAdvertSkills|length > 0 %}
+        <h3>Skills</h3>
+        <div>
+            This job requires the following skills:
+            <ul>
+                {% for advertSkill in listAdvertSkills %}
+                    <li>{{ advertSkill.skill.name }} : niveau {{ advertSkill.level }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 
     <p>
         <a href="{{ path('oc_core_home') }}" class="btn btn-default">
