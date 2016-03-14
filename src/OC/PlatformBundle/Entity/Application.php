@@ -142,4 +142,27 @@ class Application
     {
         return $this->date;
     }
+
+    /**
+     * Set advert
+     *
+     * @param \OC\PlatformBundle\Entity\Advert $advert
+     * @return Application
+     */
+    public function setAdvert(\OC\PlatformBundle\Entity\Advert $advert)
+    {
+        $this->advert = $advert;
+
+        return $this;
+    }
+
+    /**
+     * Get advert
+     *
+     * @return \OC\PlatformBundle\Entity\Advert 
+     */
+    public function getAdvert()
+    {
+        return $this->advert;
+    }
 }
