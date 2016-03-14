@@ -5,6 +5,7 @@ namespace OC\PlatformBundle\Controller;
 use OC\PlatformBundle\Entity\Advert;
 use OC\PlatformBundle\Entity\Image;
 use OC\PlatformBundle\Entity\Application;
+use OC\PlatformBundle\Entity\AdvertSkill;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -38,7 +39,7 @@ class AdvertController extends Controller
         
         // Static Job offers array to testing the controller
         // Later the jobs offers'll retrieve from DB
-            $listAdverts = array(
+        $listAdverts = array(
             array(
                 'title' => 'Recherche développeur Symfony2',
                 'id' => 1,
@@ -56,24 +57,6 @@ class AdvertController extends Controller
                 'id' => 3,
                 'author' => 'Mathieu',
                 'content' => 'Nous proposons un stage pour webdesigner…',
-                'date' => new \Datetime()),
-            array(
-                'title' => 'Offre de stage marketing',
-                'id' => 4,
-                'author' => 'Christophe',
-                'content' => 'Nous proposons un stage pour assistant web marketing…',
-                'date' => new \Datetime()),
-                array(
-                'title' => 'Offre de poste développeur frontend',
-                'id' => 5,
-                'author' => 'Richard',
-                'content' => 'Nous proposons un poste pour de développeur frontend…',
-                'date' => new \Datetime()),
-                array(
-                'title' => 'Recherche développeur backend PHP',
-                'id' => 6,
-                'author' => 'Christophe',
-                'content' => 'Nous proposons un poste de développeur backend PHP…',
                 'date' => new \Datetime())
         );
 
@@ -125,11 +108,16 @@ class AdvertController extends Controller
         $listApplications = $em
                 ->getRepository('OCPlatformBundle:Application')
                 ->findBy(array('advert' => $advert));
+        
+        $listAdvertSkills = $em
+                ->getRepository('OCPlatformBundle:AdvertSkill')
+                ->findBy(array('advert' => $advert));
 
         // Return the view of a job offer
         return $this->render('OCPlatformBundle:Advert:view.html.twig', array(
             'advert'            => $advert,
-            'listApplications'  => $listApplications
+            'listApplications'  => $listApplications,
+            'listAdvertSkills'  => $listAdvertSkills
         ));
     }
     
@@ -151,6 +139,11 @@ class AdvertController extends Controller
 //        {
 //            throw new \Exception('Your message is detected as spam !');
 //        }
+        
+        // Retrieve the entity manager
+        $em = $this->getDoctrine()->getManager();
+        
+        
         
         // Create a static entity Advert to test
         $advert = new Advert();
@@ -181,8 +174,30 @@ class AdvertController extends Controller
         // Link image to job offer
         $advert->setImage($image);
         
-        // Retrieve the entity manager
-        $em = $this->getDoctrine()->getManager();
+        // This is a bad method - Just for test
+        // Retrieve all skills
+        $listSkills = $em->getRepository('OCPlatformBundle:Skill')->findAll();
+        
+        // For each skill
+        foreach ($listSkills as $skill)
+        {
+            // Create new relation between 1 job offer and one skill
+            $advertSkill = new AdvertSkill();
+            
+            // Link to job offer - here the same static one for the test
+            $advertSkill->setAdvert($advert);
+            
+            // Link to skill - differente due to loop
+            $advertSkill->setSkill($skill);
+            
+            // Arbitrarily , we say that each skill is required in 'Expert'
+            $advertSkill->setLevel('Expert');
+            
+            // there persists the entity relationship, owner of two other relationships
+            $em->persist($advertSkill);
+        }
+        
+        
         
         // First stage - Persists the entity - Doctrine manage the entity
         $em->persist($advert);
@@ -196,9 +211,13 @@ class AdvertController extends Controller
         $em->persist($application1);
         $em->persist($application2);
         
+        
+        
         // Second stage - Flush the persist - Doctrine save the entity (query)
         $em->flush();
-           
+        
+        
+        
         
         // If POST method then user send form
         if ($request->isMethod('POST'))
