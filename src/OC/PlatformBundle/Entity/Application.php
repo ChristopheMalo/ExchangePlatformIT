@@ -149,7 +149,7 @@ class Application
      * @param \OC\PlatformBundle\Entity\Advert $advert
      * @return Application
      */
-    public function setAdvert(\OC\PlatformBundle\Entity\Advert $advert)
+    public function setAdvert(Advert $advert)
     {
         $this->advert = $advert;
 

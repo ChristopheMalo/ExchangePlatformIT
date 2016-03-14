@@ -207,7 +207,7 @@ class Advert
      * @param \OC\PlatformBundle\Entity\Image $image
      * @return Advert
      */
-    public function setImage(\OC\PlatformBundle\Entity\Image $image = null)
+    public function setImage(Image $image = null)
     {
         $this->image = $image;
 
