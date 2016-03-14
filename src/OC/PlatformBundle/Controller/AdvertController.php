@@ -269,4 +269,30 @@ class AdvertController extends Controller
             
         return $this->redirectToRoute('oc_core_home');
     }
+    
+    /**
+     * Exemple on how to modify an url image
+     * It's a static exemple
+     * 
+     * @param integer $advertId
+     * @return \OC\PlatformBundle\Controller\Response
+     */
+    public function editImageAction($advertId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        // Retrieve job offer
+        $advert = $em->getRepository('OCPlatformBundle:Advert')->find($advertId);
+        
+        // Modify image URL
+        $advert->getImage()->setUrl('test.png');
+        
+        // No need to persist image or advert (job offer) here
+        // Those entities are automatically persist because Doctrine retrieve the entities
+        
+        // Statr the modification
+        $em->flush();
+        
+        return new Response('OK');
+    }
 }
