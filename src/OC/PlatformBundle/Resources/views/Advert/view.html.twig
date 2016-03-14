@@ -26,6 +26,16 @@
         {{ advert.content }}
     </div>
     
+    {% if not advert.categories.empty %}
+        <h3>Categories</h3>
+        <p>
+            This job offer is published in the following categories:
+            {% for category in advert.categories %}
+                {{ category.name }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+    {% endif %}
+    
     <h3>Applications</h3>
     {% for application in listApplications %}
         <p>
