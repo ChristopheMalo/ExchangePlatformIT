@@ -38,6 +38,9 @@ A job offers web site for IT - Project based on Symfony 2
 - Check the query before update DB: php app/console doctrine:schema:update --dump-sql
 - Update database: php app/console doctrine:schema:update --force
 
+## Memento for fixtures
+- Insert datas in DB (Fixtures): php app/console doctrine:fixtures:load
+
 ## Iteration 1
 - Initialize the project
 - Code bundle (Advert and Core)
