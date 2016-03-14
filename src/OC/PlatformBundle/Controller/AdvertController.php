@@ -156,7 +156,7 @@ class AdvertController extends Controller
         $advert = new Advert();
         $advert->setTitle('Recherche developpeur Symfony 2');
         $advert->setAuthor('Christophe');
-        $advert->setContent('Nous recherchons une développeur symfony2 sur Lyon');
+        $advert->setContent('Nous recherchons un développeur symfony2 sur Lyon');
         // Date and publication is define automatically
         
         // Create a static entity Image to test
@@ -196,7 +196,7 @@ class AdvertController extends Controller
         $em->persist($application1);
         $em->persist($application2);
         
-        // Second stage - Flush the persist - Doctine save the entity (query)
+        // Second stage - Flush the persist - Doctrine save the entity (query)
         $em->flush();
            
         
@@ -226,12 +226,38 @@ class AdvertController extends Controller
     {
         // HERE: code to retrieve the job offer matching the param id
         
+        // Add job offer to all categories
+        $em = $this->getDoctrine()->getManager();
+        
+        // Retrieve job offer id
+        $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
+        
+        if (null === $advert)
+        {
+            throw new NotFoundHttpException('The job offer with id ' . $id . ' does not exist.');
+        }
+        
+        // findAll retrieves all the categories
+        $listCategories = $em->getRepository('OCPlatformBundle:Category')->findAll();
+        
+        // Loops on the categories to link to job offer
+        foreach ($listCategories as $category)
+        {
+            $advert->addCategory($category);
+        }
+        
+        // Persist is done in Advert
+        
+        // Start the saving
+        $em->flush();
+        
         if ($request->isMethod('POST'))
         {
             $request->getSession()->getFlashBag()->add('notice', 'The offer job is modified');
             
             return $this->redirectToRoute('oc_platform_view', array('id' => 5));
         }
+        
         
         // Static job offer to testing - Retrieve later from DB
         $advert = array(
@@ -259,6 +285,28 @@ class AdvertController extends Controller
         // HERE: code to retrieve the job offer to delete matching id
         
         // HERE: code to manage deleting the job offer
+        
+        // Remove all categories
+        $em = $this->getDoctrine()->getManager();
+        
+        // Retrieve the job offer id
+        $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
+        
+        if (null === $advert)
+        {
+            throw new NotFoundHttpException('The job offer with id ' . $id . ' does not exist.');
+        }
+        
+        // Loops on the categories to link to job offer
+        foreach ($advert->getCategories() as $category)
+        {
+            $advert->removeCategory($category);
+        }
+        
+        // Persist is done in Advert
+        
+        // Start the saving
+        $em->flush();
         
         // return $this->render('OCPlatformBundle:Advert:delete.html.twig');
         
