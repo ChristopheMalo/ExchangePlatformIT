@@ -4,6 +4,7 @@ namespace OC\PlatformBundle\Controller;
 
 use OC\PlatformBundle\Entity\Advert;
 use OC\PlatformBundle\Entity\Image;
+use OC\PlatformBundle\Entity\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -139,17 +140,31 @@ class AdvertController extends Controller
 //            throw new \Exception('Your message is detected as spam !');
 //        }
         
-        // Create the entity Advert
+        // Create a static entity Advert to test
         $advert = new Advert();
         $advert->setTitle('Recherche developpeur Symfony 2');
         $advert->setAuthor('Christophe');
         $advert->setContent('Nous recherchons une développeur symfony2 sur Lyon');
         // Date and publication is define automatically
         
-        // Create the entity Image
+        // Create a static entity Image to test
         $image = new Image();
         $image->setUrl('http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg');
         $image->setAlt('Job de rêve');
+        
+        // Create a static Application to test
+        $application1 = new Application();
+        $application1->setAuthor('Marine');
+        $application1->setContent("J'ai toutes les qualités requises");
+        
+        // Create a second Application
+        $application2 = new Application();
+        $application2->setAuthor('Pierre');
+        $application2->setContent('Je suis très motivé');
+        
+        // Link applications to job offer
+        $application1->setAdvert($advert);
+        $application2->setAdvert($advert);
         
         // Link image to job offer
         $advert->setImage($image);
@@ -160,8 +175,14 @@ class AdvertController extends Controller
         // First stage - Persists the entity - Doctrine manage the entity
         $em->persist($advert);
         
+        // First stage bis
         // No need to manually persist Entity $image because used cascade={'persist'}
         // on Advert Entity fot private $image
+        
+        // First stage ter
+        // Persist application - because relation i defined in Application and not advert
+        $em->persist($application1);
+        $em->persist($application2);
         
         // Second stage - Flush the persist - Doctine save the entity (query)
         $em->flush();
