@@ -92,12 +92,18 @@ class AdvertController extends Controller
     public function viewAction($id)
     {
         // Retrieve the repository
-        $repository = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('OCPlatformBundle:Advert');
+//        $repository = $this->getDoctrine()
+//                ->getManager()
+//                ->getRepository('OCPlatformBundle:Advert');
         
         // Retrieve the entity matching the id $id
-        $advert = $repository->find($id);
+//        $advert = $repository->find($id);
+        
+        // OU
+        
+        // Retrieve Manager, repository and Avert matching the id $id
+        $em = $this->getDoctrine()->getManager();
+        $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
         
         // $advert is an instance of OC\PlatformBundle\Entity\Advert
         // if id $id does not exist then:
@@ -114,10 +120,16 @@ class AdvertController extends Controller
 //            'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
 //            'date' => new \Datetime()
 //        );
+        
+        // Retrieve the list of application for the job offer matching the id $id
+        $listApplications = $em
+                ->getRepository('OCPlatformBundle:Application')
+                ->findBy(array('advert' => $advert));
 
         // Return the view of a job offer
         return $this->render('OCPlatformBundle:Advert:view.html.twig', array(
-            'advert' => $advert
+            'advert'            => $advert,
+            'listApplications'  => $listApplications
         ));
     }
     
