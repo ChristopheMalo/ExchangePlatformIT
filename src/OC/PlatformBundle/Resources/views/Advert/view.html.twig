@@ -25,6 +25,16 @@
     <div class="well">
         {{ advert.content }}
     </div>
+    
+    <h3>Applications</h3>
+    {% for application in listApplications %}
+        <p>
+            Application of <strong>{{ application.author }}</strong>, the {{ application.date|date('d/m/Y') }}<br>
+            {{ application.content }}
+        </p>  
+       {% else %}
+           <p>Not yet application</p>
+    {% endfor %}
 
     <p>
         <a href="{{ path('oc_core_home') }}" class="btn btn-default">
