@@ -49,6 +49,14 @@ class Application
     private $date;
     
     /**
+     * @var integer
+     * 
+     * @ORM\ManyToOne(targetEntity="OC\PlatformBundle\Entity\Advert")
+     * @ORM\JoinColumn(nullable=false) 
+     */
+    private $advert;
+    
+    /**
      * Constructor
      */
     public function __construct()
