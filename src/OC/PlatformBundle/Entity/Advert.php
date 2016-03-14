@@ -6,6 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Advert
+ * 
+ * Class representing a job offer
+ * 
+ * @author      Christophe Malo
+ * @version     1.0.0
+ * @copyright   OpenClassrooms - Alexandre Bacco
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="OC\PlatformBundle\Entity\AdvertRepository")
