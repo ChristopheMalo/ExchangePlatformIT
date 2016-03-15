@@ -93,7 +93,14 @@ class Advert
      */
     private $updateAt;
     
-    
+    /**
+     * @var integer
+     * 
+     * represent a counter of number applications for a job offer
+     * 
+     * @ORM\Column(name="nb_applications", type="integer")
+     */
+    private $nbApplications = 0;
     
     /**
      * Constructor
@@ -358,5 +365,25 @@ class Advert
     public function updateDate()
     {
         $this->setUpdateAt(new \Datetime());
+    }
+    
+    /**
+     * Increase the counter of applications for a job offer
+     * 
+     * @ORM\PrePersist
+     */
+    public function increaseApplication()
+    {
+        $this->nbApplications++;
+    }
+    
+    /**
+     * Decrease the counter of applications for a job offer
+     * 
+     * @ORM\PreRemove
+     */
+    public function decreaseApplication()
+    {
+        $this->nbApplications--;
     }
 }
