@@ -36,29 +36,45 @@ class AdvertController extends Controller
         }
         
         // HERE: Code to retreive a list of all job offers and send to view
+        $repository = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('OCPlatformBundle:Advert');
+                
+        $listAdverts = $repository->findAll();
         
+        foreach ($listAdverts as $advert)
+        {
+            $advert->getId();
+            $advert->getAuthor();
+            $advert->getTitle();
+            $advert->getContent();
+            //echo $advert->getDate();
+        }
+                
+                
         // Static Job offers array to testing the controller
         // Later the jobs offers'll retrieve from DB
-        $listAdverts = array(
-            array(
-                'title' => 'Recherche développeur Symfony2',
-                'id' => 1,
-                'author' => 'Alexandre',
-                'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-                'date' => new \Datetime()),
-            array(
-                'title' => 'Mission de webmaster',
-                'id' => 2,
-                'author' => 'Hugo',
-                'content' => 'Nous recherchons un webmaster capable de maintenir notre site internet. Blabla…',
-                'date' => new \Datetime()),
-            array(
-                'title' => 'Offre de stage webdesigner',
-                'id' => 3,
-                'author' => 'Mathieu',
-                'content' => 'Nous proposons un stage pour webdesigner…',
-                'date' => new \Datetime())
-        );
+//        $listAdverts = array(
+//            array(
+//                'title' => 'Recherche développeur Symfony2',
+//                'id' => 1,
+//                'author' => 'Alexandre',
+//                'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
+//                'date' => new \Datetime()),
+//            array(
+//                'title' => 'Mission de webmaster',
+//                'id' => 2,
+//                'author' => 'Hugo',
+//                'content' => 'Nous recherchons un webmaster capable de maintenir notre site internet. Blabla…',
+//                'date' => new \Datetime()),
+//            array(
+//                'title' => 'Offre de stage webdesigner',
+//                'id' => 3,
+//                'author' => 'Mathieu',
+//                'content' => 'Nous proposons un stage pour webdesigner…',
+//                'date' => new \Datetime())
+//        );
 
 
         return $this->render('OCPlatformBundle:Advert:index.html.twig', array(
