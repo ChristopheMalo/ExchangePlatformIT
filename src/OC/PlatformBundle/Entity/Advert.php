@@ -4,6 +4,7 @@ namespace OC\PlatformBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Advert
@@ -85,22 +86,34 @@ class Advert
     private $applications;
     
     /**
-     * @var \Datetime
+     * Represent the date of the last edition of the announcement
      * 
-     * represent the date of the last edition of the announcement
+     * @var \Datetime
      * 
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updateAt;
     
     /**
-     * @var integer
+     * Represent a counter of number applications for a job offer
      * 
-     * represent a counter of number applications for a job offer
+     * @var integer
      * 
      * @ORM\Column(name="nb_applications", type="integer")
      */
     private $nbApplications = 0;
+    
+    /**
+     * Slug for job offer
+     * 
+     * @var string
+     * 
+     * @Gedmo\Slug(fields={"title", "date"})
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug;
+    
+    
     
     /**
      * Constructor
@@ -385,5 +398,51 @@ class Advert
     public function decreaseApplication()
     {
         $this->nbApplications--;
+    }
+
+    /**
+     * Set nbApplications
+     *
+     * @param integer $nbApplications
+     * @return Advert
+     */
+    public function setNbApplications($nbApplications)
+    {
+        $this->nbApplications = $nbApplications;
+
+        return $this;
+    }
+
+    /**
+     * Get nbApplications
+     *
+     * @return integer 
+     */
+    public function getNbApplications()
+    {
+        return $this->nbApplications;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Advert
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }
