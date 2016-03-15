@@ -41,7 +41,8 @@ class AdvertController extends Controller
                 ->getManager()
                 ->getRepository('OCPlatformBundle:Advert');
                 
-        $listAdverts = $repository->findAll();
+        // $listAdverts = $repository->findAll();
+        $listAdverts = $repository->myFindAll(); // Use personal method (query builder) from AdvertRepository
         
         foreach ($listAdverts as $advert)
         {
