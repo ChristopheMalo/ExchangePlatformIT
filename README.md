@@ -37,6 +37,7 @@ A job offers web site for IT - Project based on Symfony 2
 - After entity modification (exemple: add new attribute): php app/console doctrine:generate:entities OCPlatformBundle:Advert
 - Check the query before update DB: php app/console doctrine:schema:update --dump-sql
 - Update database: php app/console doctrine:schema:update --force
+- To test DQL query: php app/console doctrine:query:dql 'SELECT a FROM OCPPlatformBundle:Advert a'
 
 ## Memento for fixtures
 - Insert datas in DB (Fixtures): php app/console doctrine:fixtures:load
