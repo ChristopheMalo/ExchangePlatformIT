@@ -2,6 +2,7 @@
 
 namespace OC\PlatformBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -74,12 +75,24 @@ class Advert
     private $categories;
     
     /**
+     * Job offer is link to many applications
+     * Bidirectional relation
+     * 
+     * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\Application", mappedBy="advert")
+     */
+    private $applications;
+    
+    
+    
+    /**
      * Constructor
      */
     public function __construct()
     {
         // By default, the date of the job offer is the date today
         $this->date = new \Datetime();
+        
+        $this->applications = new ArrayCollection();
     }
 
     /**
@@ -261,5 +274,44 @@ class Advert
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    /**
+     * Add applications
+     *
+     * @param \OC\PlatformBundle\Entity\Application $application
+     * @return Advert
+     */
+    public function addApplication(Application $application)
+    {
+        $this->applications[] = $application;
+        
+        // Link job offer to application
+        $application->setAdvert($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove applications
+     *
+     * @param \OC\PlatformBundle\Entity\Application $application
+     */
+    public function removeApplication(Application $application)
+    {
+        $this->applications->removeElement($application);
+        
+        // if relation is optional (nullable = true)
+        // $application->setAdvert(null);
+    }
+
+    /**
+     * Get applications
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getApplications()
+    {
+        return $this->applications;
     }
 }
