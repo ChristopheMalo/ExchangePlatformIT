@@ -38,8 +38,9 @@ class ApplicationNotification
         );
 
         $message
-            ->addTo($entity->getAdvert()->getAuthor()) // should be an attribute "email", use "author" instead
-            ->addFrom('admin@votresite.com')
+            // Deactivated to add job offer
+            //->addTo($entity->getAdvert()->getAuthor()) // should be an attribute "email", use "author" instead
+            //->addFrom('admin@votresite.com')
         ;
 
         $this->mailer->send($message);
