@@ -56,5 +56,9 @@ Create a form builder, the result here, AdvertType.php : php app/console doctrin
 ## Iteration 3
 - Use Form in Symfony 2
 
+## Iteration 4
+- Add security
+- Manage users
+
 ## Copyright
 **An original idea of Alexandre Bacco for :** [a work practice of Openclassrooms](https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2) - **Adapted and directed :** Christophe Malo
