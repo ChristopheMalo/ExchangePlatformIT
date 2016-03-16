@@ -120,6 +120,9 @@ class AdvertController extends Controller
         // Check if values are valid
         if ($form->handleRequest($request)->isValid())
         {
+            // Move image in upload folder
+            $advert->getImage()->upload();
+            
             // Save datas - here in DB
             $em = $this->getDoctrine()->getManager();
             $em->persist($advert);
