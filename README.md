@@ -42,6 +42,9 @@ A job offers web site for IT - Project based on Symfony 2
 ## Memento for fixtures
 - Insert datas in DB (Fixtures): php app/console doctrine:fixtures:load
 
+## Memento Form
+Create a form builder, the result here, AdvertType.php : php app/console doctrine:generate:form OCPlatformBundle:Advert (Advert here is the entity that needs form)
+
 ## Iteration 1
 - Initialize the project
 - Code bundle (Advert and Core)
@@ -49,3 +52,9 @@ A job offers web site for IT - Project based on Symfony 2
 
 ## Iteration 2
 - Use Doctrine
+
+## Iteration 3
+- Use Form in Symfony 2
+
+## Copyright
+**An original idea of Alexandre Bacco for :** [a work practice of Openclassrooms](https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2) - **Adapted and directed :** Christophe Malo
