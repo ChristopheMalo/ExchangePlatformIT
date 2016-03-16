@@ -126,7 +126,7 @@ class AdvertController extends Controller
             $em->persist($advert);
             $em->flush();
             
-            $request->getSession()->getFlashBag()->add('notice', 'The offer job is saved.');
+            $request->getSession()->getFlashBag()->add('info', 'The offer job is saved.');
             
             // Redirect to see the job offer
             return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
@@ -169,7 +169,7 @@ class AdvertController extends Controller
             // No need to persist, Doctrine know the advert (job offer)
             $em->flush();
             
-            $request->getSession()->getFlashBag()->add('notice', 'The job offer is modified.');
+            $request->getSession()->getFlashBag()->add('info', 'The job offer is modified.');
 
             return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
         }
