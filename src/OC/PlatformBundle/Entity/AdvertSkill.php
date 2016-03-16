@@ -1,5 +1,4 @@
 <?php
-// src/OC/PlatformBundle/Entity/AdvertSkill.php
 
 namespace OC\PlatformBundle\Entity;
 
@@ -83,7 +82,7 @@ class AdvertSkill
      * @param \OC\PlatformBundle\Entity\Advert $advert
      * @return AdvertSkill
      */
-    public function setAdvert(\OC\PlatformBundle\Entity\Advert $advert)
+    public function setAdvert(Advert $advert)
     {
         $this->advert = $advert;
 
@@ -106,7 +105,7 @@ class AdvertSkill
      * @param \OC\PlatformBundle\Entity\Skill $skill
      * @return AdvertSkill
      */
-    public function setSkill(\OC\PlatformBundle\Entity\Skill $skill)
+    public function setSkill(Skill $skill)
     {
         $this->skill = $skill;
 

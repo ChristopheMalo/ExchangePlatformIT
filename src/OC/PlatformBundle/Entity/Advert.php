@@ -68,6 +68,8 @@ class Advert
     private $published = true;
     
     /**
+     * @var integer
+     * 
      * @ORM\OneToOne(targetEntity="OC\PlatformBundle\Entity\Image", cascade={"persist"}) 
      */
     private $image;
@@ -108,7 +110,7 @@ class Advert
      * 
      * @var string
      * 
-     * @Gedmo\Slug(fields={"title", "date"})
+     * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(length=128, unique=true)
      */
     private $slug;
@@ -120,9 +122,8 @@ class Advert
      */
     public function __construct()
     {
-        // By default, the date of the job offer is the date today
-        $this->date = new \Datetime();
-        
+        $this->date = new \Datetime(); // By default, the date of the job offer is the date today
+        $this->categories = new ArrayCollection();
         $this->applications = new ArrayCollection();
     }
 
@@ -298,7 +299,7 @@ class Advert
     }
 
     /**
-     * Get categories
+     * Get categories (array)
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
@@ -308,7 +309,7 @@ class Advert
     }
 
     /**
-     * Add applications
+     * Add application
      *
      * @param \OC\PlatformBundle\Entity\Application $application
      * @return Advert
@@ -324,7 +325,7 @@ class Advert
     }
 
     /**
-     * Remove applications
+     * Remove application
      *
      * @param \OC\PlatformBundle\Entity\Application $application
      */
@@ -337,7 +338,7 @@ class Advert
     }
 
     /**
-     * Get applications
+     * Get applications (array)
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
@@ -352,7 +353,7 @@ class Advert
      * @param \DateTime $updateAt
      * @return Advert
      */
-    public function setUpdateAt($updateAt)
+    public function setUpdateAt(\Datetime $updateAt)
     {
         $this->updateAt = $updateAt;
 
