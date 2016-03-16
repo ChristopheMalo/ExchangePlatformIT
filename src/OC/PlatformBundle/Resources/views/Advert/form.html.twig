@@ -114,11 +114,13 @@
         
 
     {# Generate label + error + widget for field date #}
-    {{ form_row(form.date) }}
+    {% if form.date is defined %}
+        {{ form_row(form.date) }}
 
-    {{ form_row(form.author) }}
-    {{ form_row(form.published) }}
-
+        {{ form_row(form.author) }}
+        {{ form_row(form.published) }}
+    {% endif %}
+    
     {# For button, no label no error, display just widget #}
     {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
 

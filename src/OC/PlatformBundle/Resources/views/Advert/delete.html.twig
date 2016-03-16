@@ -10,15 +10,27 @@
 {% extends "OCPlatformBundle::layout.html.twig" %}
 
 {% block title %}
-    Add job offer - {{ parent() }}
+    Delete a job offer - {{ parent() }}
 {% endblock %}
 
 {% block ocplatform_body %}
 
-    <h2>Delete job offer</h2>
+    <h2>Delete a job offer</h2>
 
     <p>
-        This action is not yet developed.
+        Are you sure you want to remove this job offer '{{ advert.title }}'?
     </p>
+
+    {# Put the id of the job offer in the route of the form action #}
+    <form action="{{ path('oc_platform_delete', {'id': advert.id}) }}" method="post">
+        <a href="{{ path('oc_platform_view', {'id': advert.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Back to job offer
+        </a>
+        {# Not use form builder for this button - Manual code #}
+        <input type="submit" value="Supprimer" class="btn btn-danger" />
+        {# Generate the CSRF field #}
+        {{ form_rest(form) }}
+    </form>
 
 {% endblock %}

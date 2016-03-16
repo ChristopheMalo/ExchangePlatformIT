@@ -4,6 +4,8 @@ namespace OC\PlatformBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -33,15 +35,38 @@ class AdvertType extends AbstractType
             ->add('title',     'text')
             ->add('author',    'text')
             ->add('content',   'textarea')
-            ->add('published', 'checkbox', array('required' => false))
             ->add('image',     new ImageType())
-            ->add('categories', 'collection', array(
-                'type'          => new CategoryType(),
-                'allow_add'     => true,
-                'allow_delete'  => true
+            ->add('categories', 'entity', array(
+                'class'    => 'OCPlatformBundle:Category',
+                'property' => 'name',
+                'multiple' => true,
+                'expanded' => false
             ))
             ->add('save',      'submit')
         ;
+        
+        // Add function to listen PRE_SET_DATA event
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+            
+            // Retrieve underlying Advert Object
+            $advert = $event->getData();
+
+            if (null === $advert)
+            {
+                return;
+            }
+
+            if (!$advert->getPublished() || null === $advert->getId())
+            {
+                $event->getForm()->add('published', 'checkbox', array('required' => false));
+            }
+            else
+            {
+                $event->getForm()->remove('published');
+            }
+        }
+        );
     }
     
     /**
