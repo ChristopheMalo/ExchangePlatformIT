@@ -35,7 +35,7 @@ class AdvertController extends Controller
                 ->getDoctrine()
                 ->getManager()
                 ->getRepository('OCPlatformBundle:Advert')
-                ->findAll();
+                ->getAdverts(); // and not findAll to decrease number of queries
         
         // Send to view
         return $this->render('OCPlatformBundle:Advert:index.html.twig', array(
