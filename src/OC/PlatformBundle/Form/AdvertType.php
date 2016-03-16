@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Form builder for Advert,
+ * Form builder for add Advert,
  * this class defines the form (the fields of the form)
  * 
  * Class representing a job offer
@@ -21,6 +21,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class AdvertType extends AbstractType
 {
     /**
+     * Build the form
+     * 
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -43,6 +45,8 @@ class AdvertType extends AbstractType
     }
     
     /**
+     * Set the options
+     * 
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -53,6 +57,8 @@ class AdvertType extends AbstractType
     }
 
     /**
+     * Get the name of form
+     * 
      * @return string
      */
     public function getName()
