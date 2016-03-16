@@ -7,18 +7,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Form builder for Advert,
- * this class defines the form (the fields of the form)
- * 
- * Class representing a job offer
- * This class contains lyfe cycle callbacks
+ * Form builder to add image in advert (job offer)
  * 
  * @author      Christophe Malo
  * @version     1.0.0
  * @copyright   OpenClassrooms - Alexandre Bacco
  */
 
-class AdvertType extends AbstractType
+class ImageType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -27,13 +23,8 @@ class AdvertType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date',      'date')
-            ->add('title',     'text')
-            ->add('author',    'text')
-            ->add('content',   'textarea')
-            ->add('published', 'checkbox', array('required' => false))
-            ->add('image',     new ImageType())    
-            ->add('save',      'submit')
+            ->add('url', 'text')
+            ->add('alt', 'text')
         ;
     }
     
@@ -43,7 +34,7 @@ class AdvertType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'OC\PlatformBundle\Entity\Advert'
+            'data_class' => 'OC\PlatformBundle\Entity\Image'
         ));
     }
 
@@ -52,6 +43,6 @@ class AdvertType extends AbstractType
      */
     public function getName()
     {
-        return 'oc_platformbundle_advert';
+        return 'oc_platformbundle_image';
     }
 }
