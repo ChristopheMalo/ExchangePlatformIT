@@ -3,6 +3,7 @@
 namespace OC\PlatformBundle\Controller;
 
 use OC\PlatformBundle\Entity\Advert;
+use OC\PlatformBundle\Form\AdvertType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -33,7 +34,7 @@ class AdvertController extends Controller
         
         // Set the number of job offer per page to 1 (For testing)
         // But it would use a parameter, and access them via $this->container->getParameter('nb_per_page')
-        $nbPerPage = 1;
+        $nbPerPage = 10;
         
         // Retreive list of all job offers
         $listAdverts = $this
@@ -112,40 +113,12 @@ class AdvertController extends Controller
         $advert = new Advert();
         
         // Create the FormBuilder (Form Constructor) through the factory service form
-        $form = $this->get('form.factory')->create('form', $advert);
-        
-        // Add fields of the entity to form
-        $formBuilder
-            ->add('date', 'date')
-            ->add('title', 'text')
-            ->add('content', 'textarea')
-            ->add('author', 'text')
-            ->add('published', 'checkbox')
-            ->add('save', 'submit')
-        ;
-        
-        // For the moment, no applications, no categories - later
-        
-        // from ForBuilder, generate the form
-        $form = $formBuilder->getForm();
-        
-        // OR Shorter version
-//        $form = $this->get('form.factory')->createBuilder('form', $advert)
-//            ->add('date', 'date')
-//            ->add('title', 'text')
-//            ->add('content', 'textarea')
-//            ->add('author', 'text')
-//            ->add('published', 'checkbox')
-//            ->add('save', 'submit')
-//            ->getForm()
-//        ;
-        
-        // Link beetween request and form
-        // At this time, var $advert contains the values entered by user in the form
-        $form->handleRequest($request);
+        //$form = $this->get('form.factory')->create(new AdvertType(), $advert);
+        // Shorter
+        $form = $this->createForm(new AdvertType(), $advert); 
         
         // Check if values are valid
-        if ($form->isValid())
+        if ($form->handleRequest($request)->isValid())
         {
             // Save datas - here in DB
             $em = $this->getDoctrine()->getManager();
