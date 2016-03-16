@@ -2,6 +2,9 @@
 
 namespace OC\PlatformBundle\Controller;
 
+use OC\PlatformBundle\Entity\Advert;
+use OC\PlatformBundle\Form\AdvertType;
+use OC\PlatformBundle\Form\AdvertEditType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -32,7 +35,7 @@ class AdvertController extends Controller
         
         // Set the number of job offer per page to 1 (For testing)
         // But it would use a parameter, and access them via $this->container->getParameter('nb_per_page')
-        $nbPerPage = 1;
+        $nbPerPage = 10;
         
         // Retreive list of all job offers
         $listAdverts = $this
@@ -107,10 +110,21 @@ class AdvertController extends Controller
 //            throw new \Exception('Your message is detected as spam !');
 //        }
         
-        // If POST method then user send form
-        if ($request->isMethod('POST'))
+        // Create Advert object
+        $advert = new Advert();
+        
+        // Create the FormBuilder (Form Constructor) through the factory service form
+        //$form = $this->get('form.factory')->create(new AdvertType(), $advert);
+        // Shorter
+        $form = $this->createForm(new AdvertType(), $advert); 
+        
+        // Check if values are valid
+        if ($form->handleRequest($request)->isValid())
         {
-            // HERE: code to create and manage Form
+            // Save datas - here in DB
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($advert);
+            $em->flush();
             
             $request->getSession()->getFlashBag()->add('info', 'The offer job is saved.');
             
@@ -118,8 +132,13 @@ class AdvertController extends Controller
             return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
         }
         
-        // If not POST, display the form
-        return $this->render('OCPlatformBundle:Advert:add.html.twig');
+        // If the form is not valid
+        // - GET (user want see the form
+        // - or POST (Invalid values inside the form)
+        // Then display the form again
+        return $this->render('OCPlatformBundle:Advert:add.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
     
     /**
@@ -138,15 +157,28 @@ class AdvertController extends Controller
         $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
         
         // If job offer does not exist
-        if ($advert === null)
+        if (null === $advert)
         {
-            throw $this->createNotFoundException('The job offer with id ' . $id . ' does not exist.');
+            throw new NotFoundHttpException('The job offer with id ' . $id . ' does not exist.');
+        }
+        
+        $form = $this->createForm(new AdvertEditType(), $advert);
+        
+        if ($form->handleRequest($request)->isValid())
+        {
+            // No need to persist, Doctrine know the advert (job offer)
+            $em->flush();
+            
+            $request->getSession()->getFlashBag()->add('info', 'The job offer is modified.');
+
+            return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
         }
         
         // Code to manage form (create and edit)
 
         return $this->render('OCPlatformBundle:Advert:edit.html.twig', array(
-            'advert' => $advert
+            'form'   => $form->createView(),
+            'advert' => $advert // Send the job offer to view if wiew wants to display it
         ));
     }
     
@@ -166,20 +198,31 @@ class AdvertController extends Controller
         $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
         
         // If job offer does not exist -> display a 404 error
-        if ($advert === null)
+        if (null === $advert)
         {
-            throw $this->createNotFoundException('The job offer with id ' . $id . ' does not exist.');
+            throw new NotFoundHttpException('The job offer with id ' . $id . ' does not exist.');
         }
         
-        if ($request->isMethod('POST'))
+        // Create empty form with just the CSRF field
+        // This protects deleting job offer against the CSRF flaw
+        $form = $this->createFormBuilder()->getForm();
+        
+        if ($form->handleRequest($request)->isValid())
         {
-            // Code comme later: if request POST -> Delete article
+            $em->remove($advert);
+            $em->flush();
             
             $request->getSession()->getFlashBag()->add('info', 'Job offer has been deleted');
             
             // Redirect to home page
             return $this->redirectToRoute('oc_core_home');
         }
+        
+        // If GET request, display confirm page before deleting
+        return $this->render('OCPlatformBundle:Advert:delete.html.twig', array(
+            'advert' => $advert,
+            'form'   => $form->createView()
+        ));
     }
     
     /**
