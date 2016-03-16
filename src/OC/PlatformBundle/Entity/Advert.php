@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use OC\PlatformBundle\Validator\Antiflood;
 
 /**
  * Advert
@@ -62,6 +63,7 @@ class Advert
      *
      * @ORM\Column(name="content", type="text")
      * @Assert\NotBlank()
+     * @Antiflood()
      */
     private $content;
     
