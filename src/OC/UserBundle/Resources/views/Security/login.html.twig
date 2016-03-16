@@ -1,0 +1,21 @@
+{% extends "OCCoreBundle::layout.html.twig" %}
+
+{% block occore_body %}
+
+    {# if error, display alert message #}
+    {% if error %}
+        <div class="alert alert-danger">{{ error.message }}</div>
+    {% endif %}
+
+    {# The form with submission URL to the route 'login_check' #}
+    <form action="{{ path('login_check') }}" method="post">
+        <label for="username">Login :</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}" />
+
+        <label for="password">Password :</label>
+        <input type="password" id="password" name="_password" />
+        <br />
+        <input type="submit" value="Connexion" />
+    </form>
+
+{% endblock %}
