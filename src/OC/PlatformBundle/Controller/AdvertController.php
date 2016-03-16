@@ -30,16 +30,30 @@ class AdvertController extends Controller
             throw $this->createNotFoundException('The page ' . $page . ' not found.'); 
         }
         
+        // Set the number of job offer per page to 1 (For testing)
+        // But it would use a parameter, and access them via $this->container->getParameter('nb_per_page')
+        $nbPerPage = 1;
+        
         // Retreive list of all job offers
         $listAdverts = $this
                 ->getDoctrine()
                 ->getManager()
                 ->getRepository('OCPlatformBundle:Advert')
-                ->getAdverts(); // and not findAll to decrease number of queries
+                ->getAdverts($page, $nbPerPage); // and not findAll to decrease number of queries
+        
+        $nbPages = ceil(count($listAdverts)/$nbPerPage);
+        
+        // if page does not exist -> return a 404 error
+        if ($page > $nbPages)
+        {
+            throw $this->createNotFoundException('The page ' . $page . ' does not exist.');
+        }
         
         // Send to view
         return $this->render('OCPlatformBundle:Advert:index.html.twig', array(
-            'listAdverts' => $listAdverts
+            'listAdverts'   => $listAdverts,
+            'nbPages'       => $nbPages,
+            'page'          => $page
         ));
     }
     

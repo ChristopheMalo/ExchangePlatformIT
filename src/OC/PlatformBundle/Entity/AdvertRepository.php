@@ -3,6 +3,7 @@
 namespace OC\PlatformBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * AdvertRepository
@@ -19,7 +20,7 @@ class AdvertRepository extends EntityRepository
      * 
      * @return Adverts (Job offers)
      */
-    public function getAdverts()
+    public function getAdverts($page, $nbPerPage)
    {
        $query = $this->createQueryBuilder('a')
                // Join on the attribute image
@@ -31,6 +32,14 @@ class AdvertRepository extends EntityRepository
                ->orderBy('a.date', 'DESC')
                ->getQuery();
        
-       return $query->getResult();
+       $query
+               // define the job offer from which to begin the list
+               ->setFirstResult(($page-1) * $nbPerPage)
+               // and the number of job offer per page
+               ->setMaxResults($nbPerPage);
+       
+       //return $query->getResult();
+       // Return PaginatorHelper object corresponding to the constructed query
+       return new Paginator($query, true);
    }
 }
