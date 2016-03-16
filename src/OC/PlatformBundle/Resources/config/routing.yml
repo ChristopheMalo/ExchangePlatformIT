@@ -27,7 +27,4 @@ oc_platform_delete:
     defaults: { _controller: OCPlatformBundle:Advert:delete }
     requirements:
        id: \d+
-
-oc_platform_contact:
-    path: /contact
-    defaults: { _controller: OCPlatformBundle:Advert:contact }
+       

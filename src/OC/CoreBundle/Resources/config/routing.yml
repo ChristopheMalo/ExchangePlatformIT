@@ -1,3 +1,7 @@
 oc_core_home:
     path: /
     defaults: { _controller: OCCoreBundle:Home:home }
+
+oc_core_contact:
+    path:      /contact
+    defaults:  { _controller: OCCoreBundle:Home:contact }
