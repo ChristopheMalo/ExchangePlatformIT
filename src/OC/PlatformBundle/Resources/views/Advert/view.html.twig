@@ -14,6 +14,10 @@
 {% endblock %}
 
 {% block ocplatform_body %}
+    
+    {% if advert.image is not null %}
+        <img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}">
+    {% endif %}
 
     <h2>{{ advert.title }}</h2>
     <i>By {{ advert.author }}, the {{ advert.date|date('d/m/Y') }}</i>
@@ -21,6 +25,28 @@
     <div class="well">
         {{ advert.content }}
     </div>
+    
+    {% if not advert.categories.empty %}
+        <h3>Categories</h3>
+        <p>
+            This job offer is published in the following categories:
+            {% for category in advert.categories %}
+                {{ category.name }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+    {% endif %}
+    
+    {% if listAdvertSkills|length > 0 %}
+        <h3>Skills</h3>
+        <div>
+            This job requires the following skills:
+            <ul>
+                {% for advertSkill in listAdvertSkills %}
+                    <li>{{ advertSkill.skill.name }} : niveau {{ advertSkill.level }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 
     <p>
         <a href="{{ path('oc_core_home') }}" class="btn btn-default">
