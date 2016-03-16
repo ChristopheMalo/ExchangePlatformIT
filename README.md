@@ -22,3 +22,30 @@ A job offers web site for IT - Project based on Symfony 2
 - Empty cache (before send to production): php app/console cache:clear --env=prod
 - Or manually empty the folder due to right access on OSX
 - To get the list of available services: php app/console container:debug
+
+## Memento Doctrine
+- Create the database: php app/console doctrine:database:create
+- Generate Entity: php app/console generate:doctrine:entity
+- Name Entity: OCPlatformBundle:Advert - [BundleName]:[EntityName]
+- Keep [annotation] - select by enter
+- Enter field name, enter, and type name enter - for all fiels of the entity
+- Enter when finish
+- Create the repository -> yes and enter
+- Confirm generation
+- To check the table that will be created: php app/console doctrine:schema:update --dump-sql
+- To create the table: php app/console doctrine:schema:update --force
+- After entity modification (exemple: add new attribute): php app/console doctrine:generate:entities OCPlatformBundle:Advert
+- Check the query before update DB: php app/console doctrine:schema:update --dump-sql
+- Update database: php app/console doctrine:schema:update --force
+- To test DQL query: php app/console doctrine:query:dql 'SELECT a FROM OCPPlatformBundle:Advert a'
+
+## Memento for fixtures
+- Insert datas in DB (Fixtures): php app/console doctrine:fixtures:load
+
+## Iteration 1
+- Initialize the project
+- Code bundle (Advert and Core)
+- Add static data to test the iteration
+
+## Iteration 2
+- Use Doctrine

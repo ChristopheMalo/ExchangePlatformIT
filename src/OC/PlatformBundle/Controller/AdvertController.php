@@ -4,7 +4,6 @@ namespace OC\PlatformBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class manager controllers for job offers
@@ -28,55 +27,33 @@ class AdvertController extends Controller
         // A page must be greater or equal to 1
         if ($page < 1)
         {
-            throw new NotFoundHttpException('Page "' . $page . '" not found.');
+            throw $this->createNotFoundException('The page ' . $page . ' not found.'); 
         }
         
-        // HERE: Code to retreive a list of all job offers and send to view
+        // Set the number of job offer per page to 1 (For testing)
+        // But it would use a parameter, and access them via $this->container->getParameter('nb_per_page')
+        $nbPerPage = 1;
         
-        // Static Job offers array to testing the controller
-        // Later the jobs offers'll retrieve from DB
-            $listAdverts = array(
-            array(
-                'title' => 'Recherche développeur Symfony2',
-                'id' => 1,
-                'author' => 'Alexandre',
-                'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-                'date' => new \Datetime()),
-            array(
-                'title' => 'Mission de webmaster',
-                'id' => 2,
-                'author' => 'Hugo',
-                'content' => 'Nous recherchons un webmaster capable de maintenir notre site internet. Blabla…',
-                'date' => new \Datetime()),
-            array(
-                'title' => 'Offre de stage webdesigner',
-                'id' => 3,
-                'author' => 'Mathieu',
-                'content' => 'Nous proposons un stage pour webdesigner…',
-                'date' => new \Datetime()),
-            array(
-                'title' => 'Offre de stage marketing',
-                'id' => 4,
-                'author' => 'Christophe',
-                'content' => 'Nous proposons un stage pour assistant web marketing…',
-                'date' => new \Datetime()),
-                array(
-                'title' => 'Offre de poste développeur frontend',
-                'id' => 5,
-                'author' => 'Richard',
-                'content' => 'Nous proposons un poste pour de développeur frontend…',
-                'date' => new \Datetime()),
-                array(
-                'title' => 'Recherche développeur backend PHP',
-                'id' => 6,
-                'author' => 'Christophe',
-                'content' => 'Nous proposons un poste de développeur backend PHP…',
-                'date' => new \Datetime())
-        );
-
-
+        // Retreive list of all job offers
+        $listAdverts = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('OCPlatformBundle:Advert')
+                ->getAdverts($page, $nbPerPage); // and not findAll to decrease number of queries
+        
+        $nbPages = ceil(count($listAdverts)/$nbPerPage);
+        
+        // if page does not exist -> return a 404 error
+        if ($page > $nbPages)
+        {
+            throw $this->createNotFoundException('The page ' . $page . ' does not exist.');
+        }
+        
+        // Send to view
         return $this->render('OCPlatformBundle:Advert:index.html.twig', array(
-            'listAdverts' => $listAdverts
+            'listAdverts'   => $listAdverts,
+            'nbPages'       => $nbPages,
+            'page'          => $page
         ));
     }
     
@@ -88,20 +65,26 @@ class AdvertController extends Controller
      */
     public function viewAction($id)
     {
-        // HERE: code to retrieve the job offer matching the param id
+        // Retrieve Manager, repository and Avert matching the id $id
+        $em = $this->getDoctrine()->getManager();
+        $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
         
-        // Static job offer to testing - Retrieve later from DB
-        $advert = array(
-            'title' => 'Recherche développpeur Symfony2',
-            'id' => $id,
-            'author' => 'Alexandre',
-            'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-            'date' => new \Datetime()
-        );
+        // $advert is an instance of OC\PlatformBundle\Entity\Advert
+        // if id $id does not exist then:
+        if ($advert === null)
+        {
+            throw $this->createNotFoundException('The job offer id ' . $id . ' does not exist.');
+        }
+        
+        // Retrieve the list of advertSkills for the job offer matching the id $id
+        $listAdvertSkills = $em
+                ->getRepository('OCPlatformBundle:AdvertSkill')
+                ->findByAdvert($advert);
 
         // Return the view of a job offer
         return $this->render('OCPlatformBundle:Advert:view.html.twig', array(
-            'advert' => $advert
+            'advert'            => $advert,
+            'listAdvertSkills'  => $listAdvertSkills
         ));
     }
     
@@ -123,17 +106,16 @@ class AdvertController extends Controller
 //        {
 //            throw new \Exception('Your message is detected as spam !');
 //        }
-           
         
         // If POST method then user send form
         if ($request->isMethod('POST'))
         {
             // HERE: code to create and manage Form
             
-            $request->getSession()->getFlashBag()->add('notice', 'The offer job is saved.');
+            $request->getSession()->getFlashBag()->add('info', 'The offer job is saved.');
             
-            // Redirect to see the job offer - id is change by $id later - 5 is for testing
-            return $this->redirectToRoute('oc_platform_view', array('id' => 5));
+            // Redirect to see the job offer
+            return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
         }
         
         // If not POST, display the form
@@ -148,24 +130,20 @@ class AdvertController extends Controller
      * @return View edit
      */
     public function editAction($id, Request $request)
-    {
-        // HERE: code to retrieve the job offer matching the param id
+    {        
+        // Retrieve the EntityManager
+        $em = $this->getDoctrine()->getManager();
         
-        if ($request->isMethod('POST'))
+        // Retrieve job offer (Entity- matching the id
+        $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
+        
+        // If job offer does not exist
+        if ($advert === null)
         {
-            $request->getSession()->getFlashBag()->add('notice', 'The offer job is modified');
-            
-            return $this->redirectToRoute('oc_platform_view', array('id' => 5));
+            throw $this->createNotFoundException('The job offer with id ' . $id . ' does not exist.');
         }
         
-        // Static job offer to testing - Retrieve later from DB
-        $advert = array(
-            'title' => 'Recherche développpeur Symfony2',
-            'id' => $id,
-            'author' => 'Alexandre',
-            'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-            'date' => new \Datetime()
-        );
+        // Code to manage form (create and edit)
 
         return $this->render('OCPlatformBundle:Advert:edit.html.twig', array(
             'advert' => $advert
@@ -180,17 +158,28 @@ class AdvertController extends Controller
      * @return View delete
      */
     public function deleteAction($id, Request $request)
-    {
-        // HERE: code to retrieve the job offer to delete matching id
+    {   
+        // Retrieve the EntityManager
+        $em = $this->getDoctrine()->getManager();
         
-        // HERE: code to manage deleting the job offer
+        // Retrieve the job offer (Entity) matching the id
+        $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
         
-        // return $this->render('OCPlatformBundle:Advert:delete.html.twig');
+        // If job offer does not exist -> display a 404 error
+        if ($advert === null)
+        {
+            throw $this->createNotFoundException('The job offer with id ' . $id . ' does not exist.');
+        }
         
-        // Alert flash message and redirect for the moment
-        $request->getSession()->getFlashBag()->add('notice', 'Flash message : The delete action is not yet developed. Thank you to come back later');
+        if ($request->isMethod('POST'))
+        {
+            // Code comme later: if request POST -> Delete article
             
-        return $this->redirectToRoute('oc_core_home');
+            $request->getSession()->getFlashBag()->add('info', 'Job offer has been deleted');
+            
+            // Redirect to home page
+            return $this->redirectToRoute('oc_core_home');
+        }
     }
     
     /**
@@ -199,32 +188,22 @@ class AdvertController extends Controller
      * @param int $limit The number limit of job offers
      * @return View menu
      */
-    public function menuAction($limit)
+    public function menuAction($limit = 3)
     {
-        // Static list for testing - later this list'll come from DB
-        $listAdverts = array(
-            array('id' => 2, 'title' => 'Search Symfony2 developer'),
-            array('id' => 5, 'title' => 'Webmaster mission'),
-            array('id' => 9, 'title' => 'Webdesigner internship offer')
-        );
+        $listAdverts = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('OCPlatformBundle:Advert')
+                ->findBy(
+                        array(),                    // No criteria
+                        array('date' => 'desc'),    // Sort by date descending
+                        $limit,                     // Limit for number of job offers displaying
+                        0                           // Start at first
+                        );
         
         return $this->render('OCPlatformBundle:Advert:menu.html.twig', array(
             // The controller sends the variable to the view
             'listAdverts' => $listAdverts
         ));
-    }
-    
-    /**
-     * Display the contact form
-     * For the moment, redirect to homepage and display a flash mesage on homepage
-     * 
-     * @param Request $request
-     * @return View form contact
-     */
-    public function contactAction(Request $request)
-    {
-        $request->getSession()->getFlashBag()->add('notice', 'Flash message : contact page is not yet available. Thank you to come back later');
-            
-        return $this->redirectToRoute('oc_core_home');
     }
 }

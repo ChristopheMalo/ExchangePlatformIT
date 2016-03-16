@@ -47,7 +47,7 @@
                     
                     <h4>Contacts</h4>
                     <ul>
-                        <li><a href="{{ path('oc_platform_contact') }}">Contact us</a></li>
+                        <li><a href="{{ path('oc_core_contact') }}">Contact us</a></li>
                         <li>Support</li>
                     </ul>
 
@@ -55,7 +55,7 @@
                     {{ render(controller("OCPlatformBundle:Advert:menu", {'limit': 3})) }}
                 </div>
                 <div id="content" class="col-md-9">
-                    {% for flashMessage in app.session.flashbag.get('notice') %}
+                    {% for flashMessage in app.session.flashbag.get('info') %}
                     <div class="alert alert-warning">
                         {{ flashMessage }}
                     </div>
