@@ -2,6 +2,7 @@
 
 namespace OC\PlatformBundle\Controller;
 
+use OC\PlatformBundle\Entity\Advert;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -107,19 +108,63 @@ class AdvertController extends Controller
 //            throw new \Exception('Your message is detected as spam !');
 //        }
         
-        // If POST method then user send form
-        if ($request->isMethod('POST'))
+        // Create Advert object
+        $advert = new Advert();
+        
+        // Create the FormBuilder (Form Constructor) through the factory service form
+        $form = $this->get('form.factory')->create('form', $advert);
+        
+        // Add fields of the entity to form
+        $formBuilder
+            ->add('date', 'date')
+            ->add('title', 'text')
+            ->add('content', 'textarea')
+            ->add('author', 'text')
+            ->add('published', 'checkbox')
+            ->add('save', 'submit')
+        ;
+        
+        // For the moment, no applications, no categories - later
+        
+        // from ForBuilder, generate the form
+        $form = $formBuilder->getForm();
+        
+        // OR Shorter version
+//        $form = $this->get('form.factory')->createBuilder('form', $advert)
+//            ->add('date', 'date')
+//            ->add('title', 'text')
+//            ->add('content', 'textarea')
+//            ->add('author', 'text')
+//            ->add('published', 'checkbox')
+//            ->add('save', 'submit')
+//            ->getForm()
+//        ;
+        
+        // Link beetween request and form
+        // At this time, var $advert contains the values entered by user in the form
+        $form->handleRequest($request);
+        
+        // Check if values are valid
+        if ($form->isValid())
         {
-            // HERE: code to create and manage Form
+            // Save datas - here in DB
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($advert);
+            $em->flush();
             
-            $request->getSession()->getFlashBag()->add('info', 'The offer job is saved.');
+            $request->getSession()->getFlashBag()->add('notice', 'The offer job is saved.');
             
             // Redirect to see the job offer
             return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
         }
         
-        // If not POST, display the form
-        return $this->render('OCPlatformBundle:Advert:add.html.twig');
+        // If the form is not valid
+        // - GET (user want see the form
+        // - or POST (Invalid values inside the form)
+        // Then display the form again
+        return $this->render('OCPlatformBundle:Advert:add.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
     
     /**

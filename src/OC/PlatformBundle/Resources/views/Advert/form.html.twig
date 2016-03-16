@@ -7,8 +7,51 @@
  * @copyright       OpenClassrooms - Alexandre Bacco
  */
 #}
-{# it will be included in other views, they probably inherit the layout. #}
-{# Form code comes later #}
+<h3>Formulaire d'annonce</h3>
+
 <div class="well">
-    <p><strong>Add or edit Form</strong></p>
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+    {# General errors of form #}
+    {{ form_errors(form) }}
+
+    {# Title #}
+    <div class="form-group">
+        {# Generate label #}
+        {{ form_label(form.title, "Titre de l'annonce", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+
+        {# Display error for that specific field #}
+        {{ form_errors(form.title) }}
+
+        <div class="col-sm-4">
+            {# Generate input #}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    {# Content #}
+    <div class="form-group">
+        {{ form_label(form.content, "Contenu de l'annonce", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_errors(form.title) }}
+        <div class="col-sm-4">
+            {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    {# Generate label + error + widget for field date #}
+    {{ form_row(form.date) }}
+
+    {{ form_row(form.author) }}
+    {{ form_row(form.published) }}
+
+    {# For button, no label no error, display just widget #}
+    {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+
+    {# Automatic generation of fields
+       Here CSRF field (automatically managed by Symfony)
+       et all hidden fields (type « hidden »). #}
+    {{ form_rest(form) }}
+
+    {# Closing tag <form> of html form #}
+    {{ form_end(form) }}
 </div>
