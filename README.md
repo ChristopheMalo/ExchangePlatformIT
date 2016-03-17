@@ -66,5 +66,8 @@ A job offers web site for IT - Project based on Symfony 2
 - Add security
 - Manage users
 
+## Iteration 5
+- Use services (Advanced)
+
 ## Copyright
 **An original idea of Alexandre Bacco for :** [a work practice of Openclassrooms](https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2) - **Adapted and directed :** Christophe Malo
