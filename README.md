@@ -49,6 +49,7 @@ A job offers web site for IT - Project based on Symfony 2
 ## Memento User
 - Update with composer just the necessary bundle: composer update friendsofsymfony/user-bundle
 - To create user with FOSUserBundle: php app/console fos:user:create
+- Add role to FOSUSerBundle User, example: ROLE_ADMIN to testuser: php app/console fos:user:promote testuser ROLE_ADMIN
 
 ## Iteration 1
 - Initialize the project
