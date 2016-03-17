@@ -1,5 +1,8 @@
 # Application routes
-
+oc_platform_admin:
+    path:     /admin
+    defaults: { _controller: OCPlatformBundle:Admin:index}
+    
 oc_platform_home:
     path:     /{page}
     defaults: { _controller: OCPlatformBundle:Advert:index, page 1 }
