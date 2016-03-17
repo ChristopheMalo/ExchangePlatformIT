@@ -24,6 +24,13 @@
 
     <body>
         <div class="container">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                Logged in as {{ app.user.username }}
+                -
+                <a href="{{ path('fos_user_security_logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ path('fos_user_security_login') }}">Login</a>
+            {% endif %}
             <div id="header" class="jumbotron">
                 <h1>My job offers platform</h1>
                 <p>
@@ -42,7 +49,9 @@
                     <h3>Job offers</h3>
                     <ul class="nav nav-pills nav-stacked">
                         <li><a href="{{ path('oc_core_home') }}">Home</a></li>
-                        <li><a href="{{ path('oc_platform_add') }}">Add a job offer</a></li>
+                        {% if is_granted('ROLE_AUTEUR') %}
+                            <li><a href="{{ path('oc_platform_add') }}">Add a job offer</a></li>
+                        {% endif %}
                     </ul>
                     
                     <h4>Contacts</h4>

@@ -22,6 +22,7 @@ A job offers web site for IT - Project based on Symfony 2
 - Empty cache (before send to production): php app/console cache:clear --env=prod
 - Or manually empty the folder due to right access on OSX
 - To get the list of available services: php app/console container:debug
+- To display all the route in console: php app/console router:debug
 
 ## Memento Doctrine
 - Create the database: php app/console doctrine:database:create
@@ -43,7 +44,12 @@ A job offers web site for IT - Project based on Symfony 2
 - Insert datas in DB (Fixtures): php app/console doctrine:fixtures:load
 
 ## Memento Form
-Create a form builder, the result here, AdvertType.php : php app/console doctrine:generate:form OCPlatformBundle:Advert (Advert here is the entity that needs form)
+- Create a form builder, the result here, AdvertType.php : php app/console doctrine:generate:form OCPlatformBundle:Advert (Advert here is the entity that needs form)
+
+## Memento User
+- Update with composer just the necessary bundle: composer update friendsofsymfony/user-bundle
+- To create user with FOSUserBundle: php app/console fos:user:create
+- Add role to FOSUSerBundle User, example: ROLE_ADMIN to testuser: php app/console fos:user:promote testuser ROLE_ADMIN
 
 ## Iteration 1
 - Initialize the project
@@ -55,6 +61,10 @@ Create a form builder, the result here, AdvertType.php : php app/console doctrin
 
 ## Iteration 3
 - Use Form in Symfony 2
+
+## Iteration 4
+- Add security
+- Manage users
 
 ## Copyright
 **An original idea of Alexandre Bacco for :** [a work practice of Openclassrooms](https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2) - **Adapted and directed :** Christophe Malo
