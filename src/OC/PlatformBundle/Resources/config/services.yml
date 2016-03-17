@@ -1,11 +1,20 @@
 services:
     oc_platform.antispam:
         class:     OC\PlatformBundle\Antispam\OCAntispam
-        arguments: [@mailer, %locale%, 100]
+        arguments: [@mailer, 50]
+        calls:
+            - [ setLocale, [ %locale% ] ]
+        tags:
+            - { name: twig.extension }
         
     oc_platform.doctrine.notification:
         class: OC\PlatformBundle\DoctrineListener\ApplicationNotification
         arguments: [@mailer]
         tags:
             - { name: doctrine.event_listener, event: postPersist }
+            
+    oc_platform.ckeditor:
+        class: OC\PlatformBundle\Form\Type\CKeditorType
+        tags:
+            - { name: form.type, alias: ckeditor }
             
