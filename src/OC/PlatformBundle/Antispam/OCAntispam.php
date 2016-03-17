@@ -15,13 +15,13 @@ namespace OC\PlatformBundle\Antispam;
 class OCAntispam extends \Twig_Extension
 {
     private $mailer;
-    private $locale;
+    private $locale; // Optional
     private $minLength;
     
-    public function __construct(\Swift_Mailer $mailer, $locale, $minLength)
+    public function __construct(\Swift_Mailer $mailer, /*$locale,*/ $minLength)
     {
         $this->mailer    = $mailer;
-        $this->locale    = $locale;
+        //$this->locale    = $locale;
         $this->minLength = (int) $minLength;
     }
     
@@ -56,5 +56,15 @@ class OCAntispam extends \Twig_Extension
     public function getName()
     {
         return 'OCAntispam';
+    }
+    
+    /**
+     * Setter because $local is removed from the constructor
+     * 
+     * @param type $locale
+     */
+    public function setLocale($locale)
+    {
+        $this->local = $locale;
     }
 }
