@@ -22,7 +22,7 @@ class SecurityController extends Controller
         // If the visitor is already logged in , he's redirected to the Home
         if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
-            return $this->redirectToRoute('oc_platform_accueil');
+            return $this->redirectToRoute('oc_core_home');
         }
 
         // The authentication_utils Service retrieves the user name

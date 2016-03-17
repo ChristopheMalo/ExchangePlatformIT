@@ -7,6 +7,8 @@ use OC\PlatformBundle\Form\AdvertType;
 use OC\PlatformBundle\Form\AdvertEditType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+//use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class manager controllers for job offers
@@ -96,6 +98,7 @@ class AdvertController extends Controller
      * 
      * @param Request $request incomming request
      * @return View add
+     * @Security("has_role('ROLE_AUTEUR')")
      */
     public function addAction(Request $request)
     {
@@ -110,6 +113,14 @@ class AdvertController extends Controller
 //            throw new \Exception('Your message is detected as spam !');
 //        }
         
+        // Check if user has access
+//        if (!$this->get('security.context')->isGranted('ROLE_AUTEUR'))
+//        {
+//            // If user does not access
+//            throw new AccessDeniedException('Limited access to authors');
+//        }
+        
+        // If user has access
         // Create Advert object
         $advert = new Advert();
         
