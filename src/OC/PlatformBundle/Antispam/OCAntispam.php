@@ -4,13 +4,15 @@ namespace OC\PlatformBundle\Antispam;
 
 /**
  * Class for antispam service
+ * How to use the service? :
+ * {{ checkIfSpam(var) }} in twig is like $this->isSpam($var) in service
  *
  * @author      Christophe Malo
  * @version     1.0.0
  * @copyright   OpenClassrooms - Alexandre Bacco
  */
 
-class OCAntispam
+class OCAntispam extends \Twig_Extension
 {
     private $mailer;
     private $locale;
@@ -32,5 +34,27 @@ class OCAntispam
     public function isSpam($text)
     {
         return strlen($text) < $this->minLength;
+    }
+    
+    /**
+     * Add function(s) to the service (OCAntispam)
+     * 
+     * @return array
+     */
+    public function getFunctions()
+    {
+        return array(
+            'checkIfSpam' => new \Twig_Function_Method($this, 'isSpam')
+        );
+    }
+    
+    /**
+     * Identify the twig extension
+     * 
+     * @return string
+     */
+    public function getName()
+    {
+        return 'OCAntispam';
     }
 }
