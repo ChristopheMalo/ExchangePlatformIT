@@ -68,6 +68,7 @@ A job offers web site for IT - Project based on Symfony 2
 
 ## Iteration 5
 - Use services (Advanced)
+- Add CK Editor as service
 
 ## Copyright
 **An original idea of Alexandre Bacco for :** [a work practice of Openclassrooms](https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2) - **Adapted and directed :** Christophe Malo
