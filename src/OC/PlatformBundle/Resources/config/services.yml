@@ -11,3 +11,8 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
             
+    oc_platform.ckeditor:
+        class: OC\PlatformBundle\Form\Type\CKeditorType
+        tags:
+            - { name: form.type, alias: ckeditor }
+            

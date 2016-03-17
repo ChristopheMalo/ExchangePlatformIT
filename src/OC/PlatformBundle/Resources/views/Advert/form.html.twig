@@ -34,7 +34,8 @@
         {{ form_label(form.content, "Contenu de l'annonce", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
         {{ form_errors(form.title) }}
         <div class="col-sm-4">
-            {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+            {#{{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}#}
+            {{ form_widget(form.content) }} {# simple textarea to accept ck editor #}
         </div>
     </div>
         
