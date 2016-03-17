@@ -22,6 +22,7 @@ A job offers web site for IT - Project based on Symfony 2
 - Empty cache (before send to production): php app/console cache:clear --env=prod
 - Or manually empty the folder due to right access on OSX
 - To get the list of available services: php app/console container:debug
+- To display all the route in console: php app/console router:debug
 
 ## Memento Doctrine
 - Create the database: php app/console doctrine:database:create
@@ -43,7 +44,11 @@ A job offers web site for IT - Project based on Symfony 2
 - Insert datas in DB (Fixtures): php app/console doctrine:fixtures:load
 
 ## Memento Form
-Create a form builder, the result here, AdvertType.php : php app/console doctrine:generate:form OCPlatformBundle:Advert (Advert here is the entity that needs form)
+- Create a form builder, the result here, AdvertType.php : php app/console doctrine:generate:form OCPlatformBundle:Advert (Advert here is the entity that needs form)
+
+## Memento User
+- Update with composer just the necessary bundle: composer update friendsofsymfony/user-bundle
+- To create user with FOSUserBundle: php app/console fos:user:create
 
 ## Iteration 1
 - Initialize the project

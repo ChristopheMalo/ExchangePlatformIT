@@ -7,6 +7,8 @@
         <div class="alert alert-danger">{{ error.message }}</div>
     {% endif %}
 
+    <h2>Test</h2>
+    
     {# The form with submission URL to the route 'login_check' #}
     <form action="{{ path('login_check') }}" method="post">
         <label for="username">Login :</label>
