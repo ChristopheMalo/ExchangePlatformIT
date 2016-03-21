@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @copyright   OpenClassrooms - Alexandre Bacco
  */
 
-class BetaHtml {
+class BetaHTML {
     /**
      * Method to add 'beta' to a response
      * 
@@ -26,7 +26,7 @@ class BetaHtml {
         $content = $response->getContent();
 
         // A html code to add with the word beta
-        $html = '<span style="color: red; font-size: 0.5em;"> - Beta J-' . (int) $remainingDays . ' !</span>';
+        $html = '<span style="color: red; font-size: 0.4em;"> - Beta J-' . (int) $remainingDays . '!</span>';
 
         // Insert the code in the page, in the first <h1>
         $content = preg_replace(

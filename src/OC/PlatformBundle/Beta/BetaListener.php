@@ -2,6 +2,9 @@
 
 namespace OC\PlatformBundle\Beta;
 
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+
 /**
  * The listener of the class BetaHTML
  *
@@ -35,19 +38,33 @@ class BetaListener
     }
     
     /**
+     * Porcess changes
      * 
-     *
+     * @param FilterResponseEvent $event
+     * @return type
      */
-    public function processBeta()
+    public function processBeta(FilterResponseEvent $event)
     {
-        $remainingDays = $this->endDate->diff(new \Datetime())->format('%d');
-
-        if ($remainingDays <= 0) {
-            // Si la date est dépassée, on ne fait rien
+        // test if the request is the main request (and not a sub-request)
+        if (!$event->isMasterRequest())
+        {
             return;
         }
-
-        // Call the method - later
-        // $this->betaHTML->displayBeta()
+        
+        $remainingDays = $this->endDate->diff(new \Datetime())->format('%d');
+        
+        // If the date is exceeded, we do nothing
+        if ($remainingDays <= 0)
+        {
+            return;
+        }
+        
+        // use BetaHtml
+        $response = $this->betaHTML->displayBeta($event->getResponse(), $remainingDays);
+        
+        // Modify the response
+        
+        // Then inserts the modified response in the event
+        $event->setResponse($response);
     }
 }
