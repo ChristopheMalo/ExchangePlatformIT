@@ -1,6 +1,8 @@
 {#
 /**
  * Form template
+ * advert_id is used with ParamConverter
+ * Before we used 'id': advert.id
  * 
  * @author          Christophe Malo
  * @version         1.0.0
@@ -10,7 +12,7 @@
 <ul class="nav nav-pills nav-stacked">
   {% for advert in listAdverts %}
     <li>
-      <a href="{{ path('oc_platform_view', {'id': advert.id}) }}">
+      <a href="{{ path('oc_platform_view', {'advert_id': advert.id}) }}">
         {{ advert.title }}
       </a>
     </li>

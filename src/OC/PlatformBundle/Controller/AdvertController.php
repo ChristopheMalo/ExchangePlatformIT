@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\User\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Class manager controllers for job offers
@@ -67,22 +68,27 @@ class AdvertController extends Controller
     
     /**
      * Display the job offer
+     * test ParamConverter, remove param $id and use Advert $advert
      * 
-     * @param int $id the job offer id
+     * @param int $id the job offer id -> OLD PARAM
+     * @param Advert the job offer object -> NEW PARAM (with ParamConverter)
      * @return View view
+     * 
+     * @ParamConverter("advert", options={"mapping": {"advert_id": "id"}})
      */
-    public function viewAction($id)
+    public function viewAction(Advert $advert)
     {
         // Retrieve Manager, repository and Avert matching the id $id
         $em = $this->getDoctrine()->getManager();
-        $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
+        
+        //$advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
         
         // $advert is an instance of OC\PlatformBundle\Entity\Advert
         // if id $id does not exist then:
-        if ($advert === null)
-        {
-            throw $this->createNotFoundException('The job offer id ' . $id . ' does not exist.');
-        }
+//        if ($advert === null)
+//        {
+//            throw $this->createNotFoundException('The job offer id ' . $id . ' does not exist.');
+//        }
         
         // Retrieve the list of advertSkills for the job offer matching the id $id
         $listAdvertSkills = $em
