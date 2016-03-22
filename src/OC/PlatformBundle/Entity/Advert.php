@@ -123,6 +123,15 @@ class Advert
      */
     private $slug;
     
+    /**
+     * Job offers is link to User
+     * 
+     * @var integer
+     * 
+     * @ORM\ManyToOne(targetEntity="OC\UserBundle\Entity\User", cascade="persist") 
+     */
+    private $user;
+    
     
     
     /**
@@ -453,5 +462,17 @@ class Advert
     public function getSlug()
     {
         return $this->slug;
+    }
+    
+    public function setUser($user)
+    {
+        $this->user = $user;
+        
+        return $this;
+    }
+    
+    public function getUser()
+    {
+        return $this->user;
     }
 }
