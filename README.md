@@ -51,6 +51,9 @@ A job offers web site for IT - Project based on Symfony 2
 - To create user with FOSUserBundle: php app/console fos:user:create
 - Add role to FOSUSerBundle User, example: ROLE_ADMIN to testuser: php app/console fos:user:promote testuser ROLE_ADMIN
 
+## Memento Assetic
+- Export CSS & JS for production: php app/console assetic:dump --env=prod
+
 ## Iteration 1
 - Initialize the project
 - Code bundle (Advert and Core)
@@ -81,6 +84,7 @@ A job offers web site for IT - Project based on Symfony 2
 - Use existing ParamConverters
 - Create ParamConverters
 - Personalize error pages
+- Use Assetic for CSS & JS
 
 ## Copyright
 **An original idea of Alexandre Bacco for :** [a work practice of Openclassrooms](https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2) - **Adapted and directed :** Christophe Malo
