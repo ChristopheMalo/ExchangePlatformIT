@@ -1,0 +1,10 @@
+advert.hello: Bonjour %name% !
+advert.bye: Au revoir
+
+# ou
+#
+# oc:                               namespace
+#    platform:                      bundle without bundle word
+#           advert:                 entity or section
+#               hello: Bonjour      word need to be translated
+#               bye: Aurevoir       ...
