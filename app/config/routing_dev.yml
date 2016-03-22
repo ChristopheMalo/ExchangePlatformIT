@@ -20,3 +20,7 @@ _main:
 oc_platform_translation:
     path: /{_locale}/translation/{name}
     defaults: { _controller: OCPlatformBundle:Advert:translation }
+    
+oc_platform_paramconverter:
+    path: /{_locale}/test/{json}
+    defaults: { _controller: OCPlatformBundle:Advert:ParamConverter }

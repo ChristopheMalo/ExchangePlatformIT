@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\User\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class manager controllers for job offers
@@ -300,5 +301,18 @@ class AdvertController extends Controller
         return $this->render('OCPlatformBundle:Advert:translation.html.twig', array(
             'name' => $name
         ));
+    }
+    
+    /**
+     * Use and test JSON ParamConverter
+     * 
+     * @param array $json
+     * @return array Response
+     * 
+     * @ParamConverter("json")
+     */
+    public function ParamConverterAction($json)
+    {
+        return new Response(print_r($json, true));
     }
 }
