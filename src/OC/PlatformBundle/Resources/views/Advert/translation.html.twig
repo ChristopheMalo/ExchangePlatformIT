@@ -1,0 +1,54 @@
+{#
+/**
+ * Independent view to test the translation
+ *
+ * @author          Christophe Malo
+ * @version         1.0.0
+ * @copyright       OpenClassrooms - Alexandre Bacco 
+ */
+#}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Translator tests</title>
+
+    </head>
+    <body
+        <p> {{ 'advert.hello'|trans ({'%name%': name}) }}</p> {# place holder for ! #}
+        <p> {{ 'advert.bye'|trans }} {{ name }}
+        
+        {#
+        <div>
+            <p>{{ message|trans }}</p>
+            <button>{{ 'cancel'|trans }}</button>
+            <button>{{ 'validate'|trans }}</button>
+        </div>
+        
+        <p>
+            {% trans %}Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+            quam nisi, sollicitudin ut rhoncus semper, viverra in augue. Suspendisse
+            potenti. Fusce sit amet eros tortor. Class aptent taciti sociosqu ad litora
+            torquent per conubia nostra, per inceptos himenaeos. Ut arcu justo, tempus sit
+            amet condimentum vel, rhoncus et ipsum. Mauris nec dui nec purus euismod
+            imperdiet. Cum sociis natoque penatibus et magnis dis parturient montes,
+            nascetur ridiculus mus. Mauris ultricies euismod dolor, at hendrerit nulla
+            placerat et. Aenean tincidunt enim quam. Aliquam cursus lobortis odio, et
+            commodo diam pulvinar ut. Nunc a odio lorem, in euismod eros. Donec viverra
+            rutrum ipsum quis consectetur. Etiam cursus aliquam sem eget gravida. Sed id
+            metus nulla. Cras sit amet magna quam, sed consectetur odio. Vestibulum feugiat
+            justo at orci luctus cursus.{% endtrans %}
+        </p>
+        <p>
+            {% trans %}Vestibulum sollicitudin euismod tellus sed rhoncus. Pellentesque
+            habitant morbi tristique senectus et netus et malesuada fames ac turpis
+            egestas. Duis mattis feugiat varius. Aenean sed rutrum purus. Nam eget libero
+            lorem, ut varius purus. Etiam nec nulla vitae lacus varius fermentum. Mauris
+            hendrerit, enim nec posuere tempus, diam nisi porttitor lacus, at placerat
+            elit nulla in urna. In id nisi sapien.{% endtrans %}
+        </p>
+        #}
+    </body>
+</html>
