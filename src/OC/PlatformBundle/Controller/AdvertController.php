@@ -5,10 +5,13 @@ namespace OC\PlatformBundle\Controller;
 use OC\PlatformBundle\Entity\Advert;
 use OC\PlatformBundle\Form\AdvertType;
 use OC\PlatformBundle\Form\AdvertEditType;
+use OC\PlatformBundle\Bigbrother\BigbrotherEvents;
+use OC\PlatformBundle\Bigbrother\MessagePostEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Core\User\User;
 
 /**
  * Class manager controllers for job offers
@@ -123,6 +126,7 @@ class AdvertController extends Controller
         // If user has access
         // Create Advert object
         $advert = new Advert();
+        $advert->setUser($this->getUser());
         
         // Create the FormBuilder (Form Constructor) through the factory service form
         //$form = $this->get('form.factory')->create(new AdvertType(), $advert);
@@ -132,6 +136,24 @@ class AdvertController extends Controller
         // Check if values are valid
         if ($form->handleRequest($request)->isValid())
         {
+            // Censured message
+            //$user = new User('username', 'password');
+            
+            // Create the event with 2 arguments
+            $event = new MessagePostEvent(
+                        $advert->getContent(), 
+                        $advert->getUser()
+                        //$user
+                    );
+            
+            // Trigger the event
+            $this
+                ->get('event_dispatcher')
+                ->dispatch(BigbrotherEvents::onMessagePost, $event);
+            
+            // Get what has been amended by listener(s) , the message here
+            $advert->setContent($event->getMessage());
+                    
             // Save datas - here in DB
             $em = $this->getDoctrine()->getManager();
             $em->persist($advert);
