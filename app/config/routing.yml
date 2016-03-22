@@ -14,7 +14,9 @@ oc_core:
     
 oc_platform:
     resource: "@OCPlatformBundle/Resources/config/routing.yml"
-    prefix:   /platform
+    prefix:   /{_locale}/platform
+    requirements:
+        _locale: en|fr|de
     
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
@@ -34,3 +36,4 @@ fos_user_resetting:
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
+   
