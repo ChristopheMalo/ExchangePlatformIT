@@ -65,6 +65,19 @@ A job offers web site for IT - Project based on Symfony 2
 - Use the console: http://to-the-path/_console
 - In console not use: php app/console [command] but directly [command]
 
+## Memento Production
+- Prepare the app in local environment
+    - Clear cache in dev: php app/console cache:clear
+    - Clear cache for prod: php app/console cache:clear --env=prod
+    - Empty cache and log folder
+    - Test the environment production: activate debugger (true) for prod environment in web/app.php
+    - After test, return to false
+    - Personalize error pages
+    - Install web browser console
+    - Check quality code (with insight.sensiolabs.com)
+    - Check dependencies security (send composer.lock to security.sensiolabs.org or in console: php app/console security:check
+- Check and prepare the production server
+
 ## Iteration 1
 - Initialize the project
 - Code bundle (Advert and Core)
@@ -97,6 +110,7 @@ A job offers web site for IT - Project based on Symfony 2
 - Personalize error pages
 - Use Assetic for CSS & JS
 - Use console in web browser
+- Send web site in production
 
 ## Copyright
 **An original idea of Alexandre Bacco for :** [a work practice of Openclassrooms](https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2) - **Adapted and directed :** Christophe Malo
