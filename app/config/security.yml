@@ -40,7 +40,7 @@ security:
             logout:
                 path:       fos_user_security_logout
 #                path:   logout
-                target:     /platform
+                target:     /
             remember_me:
                 key:        %secret%
 
