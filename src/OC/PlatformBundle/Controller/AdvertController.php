@@ -109,6 +109,8 @@ class AdvertController extends Controller
      * @param Request $request incomming request
      * @return View add
      * @Security("has_role('ROLE_AUTEUR')")
+     * 
+     * @ParamConverter("advert", options={"mapping": {"advert_id": "id"}})
      */
     public function addAction(Request $request)
     {
@@ -169,7 +171,7 @@ class AdvertController extends Controller
             $request->getSession()->getFlashBag()->add('info', 'The offer job is saved.');
             
             // Redirect to see the job offer
-            return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
+            return $this->redirect($this->generateUrl('oc_platform_view', array('advert_id' => $advert->getId())));
         }
         
         // If the form is not valid
