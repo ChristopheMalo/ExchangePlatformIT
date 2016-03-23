@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\User\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class manager controllers for job offers
@@ -40,7 +42,7 @@ class AdvertController extends Controller
         
         // Set the number of job offer per page to 1 (For testing)
         // But it would use a parameter, and access them via $this->container->getParameter('nb_per_page')
-        $nbPerPage = 10;
+        $nbPerPage = 5;
         
         // Retreive list of all job offers
         $listAdverts = $this
@@ -180,6 +182,8 @@ class AdvertController extends Controller
      * @param int $id the job offer id
      * @param Request $request the incomming request
      * @return View edit
+     * 
+     * @Security("has_role('ROLE_AUTEUR')")
      */
     public function editAction($id, Request $request)
     {        
@@ -221,6 +225,8 @@ class AdvertController extends Controller
      * 
      * @param ind $id the job offer id
      * @return View delete
+     * 
+     * @Security("has_role('ROLE_AUTEUR')")
      */
     public function deleteAction($id, Request $request)
     {   
@@ -294,5 +300,18 @@ class AdvertController extends Controller
         return $this->render('OCPlatformBundle:Advert:translation.html.twig', array(
             'name' => $name
         ));
+    }
+    
+    /**
+     * Use and test JSON ParamConverter
+     * 
+     * @param array $json
+     * @return array Response
+     * 
+     * @ParamConverter("json")
+     */
+    public function ParamConverterAction($json)
+    {
+        return new Response(print_r($json, true));
     }
 }
