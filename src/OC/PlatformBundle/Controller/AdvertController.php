@@ -182,6 +182,8 @@ class AdvertController extends Controller
      * @param int $id the job offer id
      * @param Request $request the incomming request
      * @return View edit
+     * 
+     * @Security("has_role('ROLE_AUTEUR')")
      */
     public function editAction($id, Request $request)
     {        
@@ -223,6 +225,8 @@ class AdvertController extends Controller
      * 
      * @param ind $id the job offer id
      * @return View delete
+     * 
+     * @Security("has_role('ROLE_AUTEUR')")
      */
     public function deleteAction($id, Request $request)
     {   
