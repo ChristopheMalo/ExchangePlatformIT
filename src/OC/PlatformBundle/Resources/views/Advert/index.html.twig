@@ -22,7 +22,7 @@
     <ul>
         {% for advert in listAdverts %}
             <li>
-                <a href="{{ path('oc_platform_view', {'advert_id': advert.id}) }}">
+                <a href="{{ path('oc_platform_view', {'id': advert.id}) }}">
                     {{ advert.title }}
                 </a>
                 by {{ advert.author }},

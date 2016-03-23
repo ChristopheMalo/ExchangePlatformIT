@@ -69,27 +69,22 @@ class AdvertController extends Controller
     
     /**
      * Display the job offer
-     * test ParamConverter, remove param $id and use Advert $advert
      * 
-     * @param int $id the job offer id -> OLD PARAM
-     * @param Advert the job offer object -> NEW PARAM (with ParamConverter)
+     * @param int $id the job offer id
      * @return View view
-     * 
-     * @ParamConverter("advert", options={"mapping": {"advert_id": "id"}})
      */
-    public function viewAction(Advert $advert)
+    public function viewAction($id)
     {
         // Retrieve Manager, repository and Avert matching the id $id
         $em = $this->getDoctrine()->getManager();
-        
-        //$advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
+        $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
         
         // $advert is an instance of OC\PlatformBundle\Entity\Advert
         // if id $id does not exist then:
-//        if ($advert === null)
-//        {
-//            throw $this->createNotFoundException('The job offer id ' . $id . ' does not exist.');
-//        }
+        if ($advert === null)
+        {
+            throw $this->createNotFoundException('The job offer id ' . $id . ' does not exist.');
+        }
         
         // Retrieve the list of advertSkills for the job offer matching the id $id
         $listAdvertSkills = $em
@@ -109,8 +104,6 @@ class AdvertController extends Controller
      * @param Request $request incomming request
      * @return View add
      * @Security("has_role('ROLE_AUTEUR')")
-     * 
-     * @ParamConverter("advert", options={"mapping": {"advert_id": "id"}})
      */
     public function addAction(Request $request)
     {
@@ -171,7 +164,7 @@ class AdvertController extends Controller
             $request->getSession()->getFlashBag()->add('info', 'The offer job is saved.');
             
             // Redirect to see the job offer
-            return $this->redirect($this->generateUrl('oc_platform_view', array('advert_id' => $advert->getId())));
+            return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
         }
         
         // If the form is not valid
