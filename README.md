@@ -56,6 +56,15 @@ A job offers web site for IT - Project based on Symfony 2
 ## Memento Assetic
 - Export CSS & JS for production: php app/console assetic:dump --env=prod
 
+## Memento web browser Console
+- Install dependencies to use coresphere/console-bundle
+- php composer update
+- Register the bundle in AppKernel.php (Dev part only)
+- Register the route (follow the readme bundle)
+- Install the assets: php app/console assets:install web
+- Use the console: http://to-the-path/_console
+- In console not use: php app/console [command] but directly [command]
+
 ## Iteration 1
 - Initialize the project
 - Code bundle (Advert and Core)
