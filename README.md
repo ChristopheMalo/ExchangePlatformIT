@@ -25,6 +25,7 @@ A job offers web site for IT - Project based on Symfony 2
 - To display all the route in console: php app/console router:debug
 - To display all the commands: php app/console list
 - To display specific help: php app/console help [command] -> ex: php app/console command list
+- To remove folder with files in console: rm -rf [folder-name]
 
 ## Memento Doctrine
 - Create the database: php app/console doctrine:database:create
@@ -76,7 +77,19 @@ A job offers web site for IT - Project based on Symfony 2
     - Install web browser console
     - Check quality code (with insight.sensiolabs.com)
     - Check dependencies security (send composer.lock to security.sensiolabs.org or in console: php app/console security:check
-- Check and prepare the production server
+- Send files, check and prepare the production server
+    - send files/folders (app, bin, src, web + 2 composer files)
+    - Check compatibility production server with web/config.php
+    - If problem with date.timezone, i use PLESK, i'm in France; in PLESK GUI, php config, add: date.timezone = "Europe/Paris"
+    - chmod app/cache and app/log folder to 777
+    - Install dependencies: composer install (carefully with the PHP Version in platform config)
+    - If problem with composer, zip vendor, send by FTP and unzip in SSH console: unzip vendor.zip
+    - Autorize dev environment to debug the site in production (add personal IP, update if dynamical)
+    - Create the database (manual or if possible: php app/console doctrine:database:create)
+    - Create the table: php app/console doctrine:schema:update --force
+    - Check the site (dev and prod environment)
+    - Rewrite URL or add virtualhost (In PLESK, simply use the GUI to redirect to /web folder)
+    
 
 ## Iteration 1
 - Initialize the project
