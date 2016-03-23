@@ -9,13 +9,13 @@
  * @copyright       OpenClassrooms - Alexandre Bacco 
  */
 #}
-{#{% extends "OCPlatformBundle::layout.html.twig" %}
+{% extends "OCPlatformBundle::layout.html.twig" %}
 
 {% block title %}
     List of job offers - {{ parent() }}
 {% endblock %}
 
-{% block ocplatform_body %}#}
+{% block ocplatform_body %}
 
     <h2>All the job offers</h2>
 
@@ -36,11 +36,9 @@
     <ul class="pagination">
         {% for p in range(1, nbPages) %}
             <li{% if p == page %} class="active"{% endif %}>
-                <a href="{{ path('oc_core_home', {'page': p}) }}">{{ p }}</a>
+                <a href="{{ path('oc_platform_home', {'page': p}) }}">{{ p }}</a>
             </li>
         {% endfor %}
     </ul>
     
-{#
 {% endblock %}
-#}

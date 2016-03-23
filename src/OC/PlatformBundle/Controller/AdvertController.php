@@ -42,7 +42,7 @@ class AdvertController extends Controller
         
         // Set the number of job offer per page to 1 (For testing)
         // But it would use a parameter, and access them via $this->container->getParameter('nb_per_page')
-        $nbPerPage = 10;
+        $nbPerPage = 5;
         
         // Retreive list of all job offers
         $listAdverts = $this

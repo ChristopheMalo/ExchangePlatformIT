@@ -17,7 +17,12 @@
     
     <h1>Welcome to this home Job board</h1>
     
-    {# No duplication code - Include the list of job offers #}
-    {{ render(controller("OCPlatformBundle:Advert:index", {'page': 1})) }}
+    {# Display flash message with naeme 'info' #}
+    {% for message in app.session.flashbag.get('info') %}
+        <div class="alert alert-info">Message flash : {{ message }}</div>
+    {% endfor %}
+    
+    {# No duplication code - Include the list of job offers from menu #}
+    {{ render(controller("OCPlatformBundle:Advert:menu", {'limit': 3})) }}
 
 {% endblock %}
