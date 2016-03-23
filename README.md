@@ -23,6 +23,8 @@ A job offers web site for IT - Project based on Symfony 2
 - Or manually empty the folder due to right access on OSX
 - To get the list of available services: php app/console container:debug
 - To display all the route in console: php app/console router:debug
+- To display all the commands: php app/console list
+- To display specific help: php app/console help [command] -> ex: php app/console command list
 
 ## Memento Doctrine
 - Create the database: php app/console doctrine:database:create
@@ -85,6 +87,7 @@ A job offers web site for IT - Project based on Symfony 2
 - Create ParamConverters
 - Personalize error pages
 - Use Assetic for CSS & JS
+- Use console in web browser
 
 ## Copyright
 **An original idea of Alexandre Bacco for :** [a work practice of Openclassrooms](https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2) - **Adapted and directed :** Christophe Malo
