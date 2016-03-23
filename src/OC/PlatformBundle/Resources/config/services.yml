@@ -36,3 +36,9 @@ services:
         arguments: [@oc_platform.censorship_processor, [1, 2, 3]]
         tags:
             - { name: kernel.event_listener, event: oc_platform.bigbrother.post_message, method: processMessage }
+            
+    # Create a ParamConverter
+    oc_platform.json_paramconverter:
+        class: OC\PlatformBundle\ParamConverter\JsonParamConverter
+        tags:
+            - { name: request.param_converter }

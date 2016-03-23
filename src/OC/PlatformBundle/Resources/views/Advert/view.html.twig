@@ -53,14 +53,16 @@
             <i class="glyphicon glyphicon-chevron-left"></i>
             Back to to the list
         </a>
-        <a href="{{ path('oc_platform_edit', {'id': advert.id}) }}" class="btn btn-default">
-            <i class="glyphicon glyphicon-edit"></i>
-            Edit job offer
-        </a>
-        <a href="{{ path('oc_platform_delete', {'id': advert.id}) }}" class="btn btn-danger">
-            <i class="glyphicon glyphicon-trash"></i>
-            Delete job offer
-        </a>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <a href="{{ path('oc_platform_edit', {'id': advert.id}) }}" class="btn btn-default">
+                <i class="glyphicon glyphicon-edit"></i>
+                Edit job offer
+            </a>
+            <a href="{{ path('oc_platform_delete', {'id': advert.id}) }}" class="btn btn-danger">
+                <i class="glyphicon glyphicon-trash"></i>
+                Delete job offer
+            </a>
+        {% endif %}
     </p>
 
 {% endblock %}
